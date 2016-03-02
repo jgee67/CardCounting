@@ -34,9 +34,14 @@ public class CountingActivity extends AppCompatActivity {
         count_header = (TextView) findViewById(R.id.count_header);
         count_tv = (TextView) findViewById(R.id.count);
         card = (PlayingCardView) findViewById(R.id.card);
-        card.setCard();
         deck = new Deck();
         deck.shuffle(6);
+        try{
+            card.setCard(deck.draw(), false);
+        }
+        catch(Deck.EmptyDeckException e){
+
+        }
 
         fadePrompt();
     }
@@ -44,7 +49,7 @@ public class CountingActivity extends AppCompatActivity {
     private void fadePrompt(){
         AlphaAnimation fadeOut = new AlphaAnimation(1.0f, 0.0f);
         fadeOut.setDuration(2000);
-        fadeOut.setStartOffset(5000);
+        fadeOut.setStartOffset(2500);
 
         fadeOut.setAnimationListener(new Animation.AnimationListener() {
             @Override
@@ -67,18 +72,12 @@ public class CountingActivity extends AppCompatActivity {
     }
 
     public void startCounting(View v){
-//        card.setClickable(false);
+        card.setClickable(false);
         time_header.setVisibility(View.VISIBLE);
         time_tv.setVisibility(View.VISIBLE);
         count_header.setVisibility(View.VISIBLE);
         count_tv.setVisibility(View.VISIBLE);
-        try {
-            card.setCard(deck.draw());
-        }
-        catch(Deck.EmptyDeckException e){
-            card.setCard();
-            new Toast(this).makeText(this, "Deck is empty, count should be 0", Toast.LENGTH_SHORT).show();
-        }
+        card.flip();
     }
 
 }
