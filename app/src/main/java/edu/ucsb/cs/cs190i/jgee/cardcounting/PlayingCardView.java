@@ -38,4 +38,19 @@ public class PlayingCardView extends ImageView {
         faceUp = !faceUp;
     }
 
+    //Returns card's value (1-11)
+    public int getCardValue(){
+        return card.getValue();
+    }
+
+    //Returns card's id (0-12)
+    public int getCardId(){
+        return card.getId();
+    }
+
+    //Returns true if card is face up
+    public boolean isFaceUp(){
+        return faceUp;
+    }
+
 }

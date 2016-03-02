@@ -13,7 +13,7 @@ public class PlayingCard {
     public static final int HEARTS = 2;
     public static final int SPADES = 3;
 
-    //Valid ints of value
+    //Valid ints of id
     public static final int ACE = 0;
     public static final int TWO = 1;
     public static final int THREE = 2;
@@ -30,11 +30,11 @@ public class PlayingCard {
 
     //Used to check validity of suit and value
     private final ArrayList<Integer> suits = new ArrayList<>();
-    private final ArrayList<Integer> values = new ArrayList<>();
+    private final ArrayList<Integer> ids = new ArrayList<>();
 
     //This cards suit and value
     private int suit = -1;
-    private int value = -1;
+    private int id = -1;
 
     //Constructor (and only setter) of card
     PlayingCard(int s, int v) throws IllegalSuitException, IllegalValueException{
@@ -42,11 +42,11 @@ public class PlayingCard {
         if(!suits.contains(s)){
             throw new IllegalSuitException("Suit must be 0 (CLUBS), 1 (DIAMONDS), 2 (HEARTS), or 3 (SPADES)");
         }
-        if(!values.contains(v)){
+        if(!ids.contains(v)){
             throw new IllegalValueException("Value must be between 0 and 12 (0 = ACE, 12 = KING)");
         }
         suit = s;
-        value = v;
+        id = v;
     }
 
     //Returns suit as an int
@@ -54,9 +54,35 @@ public class PlayingCard {
         return suit;
     }
 
-    //Returns value as an int
+    //Returns id as an int
+    public int getId(){
+        return id;
+    }
+
+    //Returns in-game value of card (as opposed to id)
     public int getValue(){
-        return value;
+        switch(id){
+            case ACE:
+                return 11;
+            case TWO:
+                return 2;
+            case THREE:
+                return 3;
+            case FOUR:
+                return 4;
+            case FIVE:
+                return 5;
+            case SIX:
+                return 6;
+            case SEVEN:
+                return 7;
+            case EIGHT:
+                return 8;
+            case NINE:
+                return 9;
+            default:
+                return 10;
+        }
     }
 
     //Returns suit as a string
@@ -75,9 +101,9 @@ public class PlayingCard {
         }
     }
 
-    //Returns value as a string
+    //Returns id as a string
     public String getValueAsString(){
-        switch(value){
+        switch(id){
             case ACE:
                 return "ace";
             case TWO:
@@ -109,7 +135,7 @@ public class PlayingCard {
         }
     }
 
-    //Returns "<value> of <suit>"
+    //Returns "<id> of <suit>"
     @Override
     public String toString(){
         StringBuilder builder = new StringBuilder();
@@ -126,19 +152,19 @@ public class PlayingCard {
         suits.add(HEARTS);
         suits.add(SPADES);
 
-        values.add(ACE);
-        values.add(TWO);
-        values.add(THREE);
-        values.add(FOUR);
-        values.add(FIVE);
-        values.add(SIX);
-        values.add(SEVEN);
-        values.add(EIGHT);
-        values.add(NINE);
-        values.add(TEN);
-        values.add(JACK);
-        values.add(QUEEN);
-        values.add(KING);
+        ids.add(ACE);
+        ids.add(TWO);
+        ids.add(THREE);
+        ids.add(FOUR);
+        ids.add(FIVE);
+        ids.add(SIX);
+        ids.add(SEVEN);
+        ids.add(EIGHT);
+        ids.add(NINE);
+        ids.add(TEN);
+        ids.add(JACK);
+        ids.add(QUEEN);
+        ids.add(KING);
     }
 
     //Exception classes
