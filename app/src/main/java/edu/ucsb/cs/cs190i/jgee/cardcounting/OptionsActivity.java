@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class OptionsActivity extends AppCompatActivity {
     private static final long TIME_PER_CARD_DEFAULT = 5;
@@ -107,23 +108,13 @@ public class OptionsActivity extends AppCompatActivity {
         actual_count_cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked) {
-                    isActualCountMode = true;
-                } else {
-                    isActualCountMode = false;
-                }
-
+                isActualCountMode = isChecked;
             }
         });
         random_buttons_cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked) {
-                    isRandomizeButtonsMode = true;
-                } else {
-                    isRandomizeButtonsMode = false;
-                }
-
+                isRandomizeButtonsMode = isChecked;
             }
         });
     }
@@ -170,6 +161,8 @@ public class OptionsActivity extends AppCompatActivity {
     // OnClick method for reset button - set options to default
     public void onResetClick(View v) {
         setDefaultValues();
+        Toast.makeText(this, "Options have been reset to its default values.", Toast.LENGTH_SHORT)
+                .show();
     }
 
     // OnClick method for OK button
