@@ -37,6 +37,7 @@ public class CountingActivity extends AppCompatActivity {
     private static int secondsLeft = 0;
     private static int currentCardsCounted;
     private static int totalCardsCounted;
+    private static boolean success;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +60,7 @@ public class CountingActivity extends AppCompatActivity {
         currentCardsCounted = 0;
         count_tv.setText(String.format("%d", count));
         expectedCount = 0;
+        success = false;
         initCountDownTimer();
         setFirst();
         fadePrompt();
@@ -144,6 +146,7 @@ public class CountingActivity extends AppCompatActivity {
             setExpected();
         }
         catch(Deck.EmptyDeckException e){
+            success = true;
             finishCounting();
         }
     }
@@ -216,9 +219,16 @@ public class CountingActivity extends AppCompatActivity {
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
             totalCardsCounted += currentCardsCounted;
+            String title = "Game Over!";
+            String message = "You counted %d cards. Would you like to try again?";
+            if(success){
+                success = false;
+                title = "Congratulations!";
+                message = "You counted all %d cards! Would you like to play again?";
+            }
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-            builder.setTitle("Game Over!")
-                    .setMessage(String.format("You counted %d cards. Would you like to play again?", currentCardsCounted))
+            builder.setTitle(title)
+                    .setMessage(String.format(message, currentCardsCounted))
                     .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                             reset();
