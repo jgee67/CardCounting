@@ -111,7 +111,6 @@ public class CountingActivity extends AppCompatActivity {
         }
         resetCountDownTimer();
         currentCardsCounted++;
-        Log.w("left", String.format("%d", currentCardsCounted));
         count_tv.setText(String.format("%d", count));
         drawNext();
     }
@@ -123,7 +122,6 @@ public class CountingActivity extends AppCompatActivity {
         }
         resetCountDownTimer();
         currentCardsCounted++;
-        Log.w("middle", String.format("%d", currentCardsCounted));
         drawNext();
     }
 
@@ -135,7 +133,6 @@ public class CountingActivity extends AppCompatActivity {
         }
         resetCountDownTimer();
         currentCardsCounted++;
-        Log.w("right", String.format("%d", currentCardsCounted));
         count_tv.setText(String.format("%d", count));
         drawNext();
     }
@@ -145,7 +142,6 @@ public class CountingActivity extends AppCompatActivity {
         try {
             card.setCard(deck.draw(), true);
             setExpected();
-            Log.w("Counting", String.format("expectedAction: %d", expectedAction()));
         }
         catch(Deck.EmptyDeckException e){
             finishCounting();
@@ -171,7 +167,6 @@ public class CountingActivity extends AppCompatActivity {
         try{
             card.setCard(deck.draw(), false);
             setExpected();
-//            Log.w("Counting", String.format("expectedAction: %d", expectedAction()));
         }
         catch(Deck.EmptyDeckException e){
             Log.w("EmptyDeckException", "called inside setFirst, should not happen");
@@ -183,14 +178,6 @@ public class CountingActivity extends AppCompatActivity {
         int value = card.getCardValue();
         if(value < 7) expectedCount++;
         if(value > 9) expectedCount--;
-    }
-
-    //Gets the expectedAction based on next card value
-    private int expectedAction(){
-        int value = card.getCardValue();
-        if(value < 7) return 1;
-        if(value < 10) return 0;
-        else return -1;
     }
 
     //Reset the countdown timer
@@ -205,8 +192,7 @@ public class CountingActivity extends AppCompatActivity {
         bufferedTime = bufferedTime * 1000;
         countDownTimer = new CountDownTimer((long) bufferedTime, 100) {
             public void onTick(long millisUntilFinished) {
-                if (Math.round((float)millisUntilFinished / 1000.0f) != secondsLeft)
-                {
+                if (Math.round((float)millisUntilFinished / 1000.0f) != secondsLeft) {
                     secondsLeft = Math.round((float)millisUntilFinished / 1000.0f);
                     time_tv.setText(String.format("%d", secondsLeft));
                     if(secondsLeft < 1) finishCounting();
