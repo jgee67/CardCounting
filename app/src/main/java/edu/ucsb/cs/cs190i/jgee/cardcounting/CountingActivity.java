@@ -25,6 +25,8 @@ public class CountingActivity extends AppCompatActivity {
     private static TextView time_tv;
     private static TextView count_header;
     private static TextView count_tv;
+    private static TextView cards_counted_header;
+    private static TextView cards_counted;
     private static PlayingCardView card;
     private static Button left_button;
     private static Button middle_button;
@@ -52,14 +54,18 @@ public class CountingActivity extends AppCompatActivity {
         time_tv = (TextView) findViewById(R.id.time);
         count_header = (TextView) findViewById(R.id.count_header);
         count_tv = (TextView) findViewById(R.id.count);
+        cards_counted_header = (TextView) findViewById(R.id.cards_counted_header);
+        cards_counted = (TextView) findViewById(R.id.cards_counted);
         card = (PlayingCardView) findViewById(R.id.card);
         left_button = (Button) findViewById(R.id.left_button);
         middle_button = (Button) findViewById(R.id.middle_button);
         right_button = (Button) findViewById(R.id.right_button);
         count = 0;
-        currentCardsCounted = 0;
         count_tv.setText(String.format("%d", count));
+        currentCardsCounted = 0;
+        cards_counted.setText(String.format("%d", currentCardsCounted));
         expectedCount = 0;
+        time_tv.setText(String.format("%d", timePerCard));
         success = false;
         initCountDownTimer();
         setFirst();
@@ -98,6 +104,8 @@ public class CountingActivity extends AppCompatActivity {
         time_tv.setVisibility(View.VISIBLE);
         count_header.setVisibility(View.VISIBLE);
         count_tv.setVisibility(View.VISIBLE);
+        cards_counted_header.setVisibility(View.VISIBLE);
+        cards_counted.setVisibility(View.VISIBLE);
         resetCountDownTimer();
         left_button.setVisibility(View.VISIBLE);
         middle_button.setVisibility(View.VISIBLE);
@@ -114,6 +122,7 @@ public class CountingActivity extends AppCompatActivity {
         resetCountDownTimer();
         currentCardsCounted++;
         count_tv.setText(String.format("%d", count));
+        cards_counted.setText(String.format("%d", currentCardsCounted));
         drawNext();
     }
 
@@ -124,6 +133,7 @@ public class CountingActivity extends AppCompatActivity {
         }
         resetCountDownTimer();
         currentCardsCounted++;
+        cards_counted.setText(String.format("%d", currentCardsCounted));
         drawNext();
     }
 
@@ -136,6 +146,7 @@ public class CountingActivity extends AppCompatActivity {
         resetCountDownTimer();
         currentCardsCounted++;
         count_tv.setText(String.format("%d", count));
+        cards_counted.setText(String.format("%d", currentCardsCounted));
         drawNext();
     }
 
@@ -157,7 +168,7 @@ public class CountingActivity extends AppCompatActivity {
         count_tv.setText(String.format("%d", count));
         expectedCount = 0;
         currentCardsCounted = 0;
-        Log.w("currentCardsCounted", String.valueOf(currentCardsCounted));
+        cards_counted.setText(String.format("%d", currentCardsCounted));
         setFirst();
         card.flip();
         resetCountDownTimer();
@@ -244,11 +255,23 @@ public class CountingActivity extends AppCompatActivity {
         }
     }
 
-    //Stop timer on activity end
+    //Stop timer on activity ends
     @Override
     public void onBackPressed(){
         countDownTimer.cancel();
         super.onBackPressed();
+    }
+
+    @Override
+    public void onPause(){
+        countDownTimer.cancel();
+        super.onPause();
+    }
+
+    @Override
+    public void onDestroy(){
+        countDownTimer.cancel();
+        super.onDestroy();
     }
 }
 
