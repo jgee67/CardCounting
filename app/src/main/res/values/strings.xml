@@ -5,17 +5,15 @@
     <string name="title_activity_options">Options</string>
 
 
-    <string name="option_tv">Timer</string>
+    <string name="option_tv">Options</string>
     <string name="timer_off_cb">Disable</string>
     <string name="time_option_tv">"Time per Card: "</string>
     <string name="deck_option_tv">"Number of Decks: "</string>
-    <string name="plus_btn">^</string>
-    <string name="minus_btn">v</string>
     <string name="endless_mode_cb">Endless</string>
-    <string name="actual_count_cb">Actual count mode</string>
-    <string name="random_buttons_cb">Random buttons mode</string>
-    <string name="ok_btn">OK</string>
-    <string name="reset_btn">Reset</string>
+    <string name="actual_count_cb">Keep Track of Running Count</string>
+    <string name="random_buttons_cb">Randomize Buttons</string>
+    <string name="ok_btn">Save</string>
+    <string name="reset_btn">Reset to Defaults</string>
 
 
 </resources>

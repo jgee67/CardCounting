@@ -11,21 +11,20 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="edu.ucsb.cs.cs190i.jgee.cardcounting.OptionsActivity"
     tools:showIn="@layout/activity_options"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:gravity="center_horizontal">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Options"
-        android:textSize="40dp"
+        android:text="@string/option_tv"
+        android:textSize="40sp"
         android:layout_gravity="center_horizontal"/>
 
     <View
-        android:layout_width="match_parent"
+        android:layout_width="175dp"
         android:layout_height="2dp"
-        android:id="@+id/div"
-        android:layout_marginEnd="100dp"
-        android:layout_marginStart="100dp"/>
+        android:id="@+id/div"/>
 
 
     <LinearLayout
