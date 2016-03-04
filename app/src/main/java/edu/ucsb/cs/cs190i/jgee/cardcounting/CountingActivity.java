@@ -92,7 +92,6 @@ public class CountingActivity extends AppCompatActivity {
     //PlayingCardView's onClickListener that starts the counting
     public void startCounting(View v) {
         card.setClickable(false);
-        prompt.clearAnimation();
         time_header.setVisibility(View.VISIBLE);
         time_tv.setVisibility(View.VISIBLE);
         count_header.setVisibility(View.VISIBLE);
