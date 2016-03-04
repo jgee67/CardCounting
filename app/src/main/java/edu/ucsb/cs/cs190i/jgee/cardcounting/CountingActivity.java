@@ -39,6 +39,8 @@ public class CountingActivity extends AppCompatActivity {
     private static int secondsLeft = 0;
     private static int currentCardsCounted;
     private static int totalCardsCounted;
+    private static int sessionTime;
+    private static int totalTime;
     private static boolean success;
 
     @Override
@@ -66,6 +68,7 @@ public class CountingActivity extends AppCompatActivity {
         cards_counted.setText(String.format("%d", currentCardsCounted));
         expectedCount = 0;
         time_tv.setText(String.format("%d", timePerCard));
+        sessionTime = 0;
         success = false;
         initCountDownTimer();
         setFirst();
@@ -169,6 +172,7 @@ public class CountingActivity extends AppCompatActivity {
         expectedCount = 0;
         currentCardsCounted = 0;
         cards_counted.setText(String.format("%d", currentCardsCounted));
+        sessionTime = 0;
         setFirst();
         card.flip();
         resetCountDownTimer();
@@ -209,6 +213,7 @@ public class CountingActivity extends AppCompatActivity {
                 if (Math.round((float)millisUntilFinished / 1000.0f) != secondsLeft) {
                     secondsLeft = Math.round((float)millisUntilFinished / 1000.0f);
                     time_tv.setText(String.format("%d", secondsLeft));
+                    if(secondsLeft != timePerCard) sessionTime++;
                     if(secondsLeft < 1) finishCounting();
                 }
             }
@@ -230,6 +235,7 @@ public class CountingActivity extends AppCompatActivity {
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
             totalCardsCounted += currentCardsCounted;
+            totalTime += sessionTime;
             String title = "Game Over!";
             String message = "You counted %d cards. Would you like to try again?";
             if(success){
