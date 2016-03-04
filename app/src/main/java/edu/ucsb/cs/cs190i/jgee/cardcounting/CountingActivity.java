@@ -1,43 +1,42 @@
 package edu.ucsb.cs.cs190i.jgee.cardcounting;
 
-import android.content.Context;
-import android.graphics.Color;
+import android.app.Dialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.renderscript.ScriptGroup;
+import android.support.v4.app.DialogFragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 
 public class CountingActivity extends AppCompatActivity {
 
-    private static LinearLayout layout;
     private static TextView prompt;
     private static TextView time_header;
     private static TextView time_tv;
-    private static TextView time_seconds;
-    private static EditText time_set;
     private static TextView count_header;
     private static TextView count_tv;
-    private PlayingCardView card;
-    private Button left_button;
-    private Button middle_button;
-    private Button right_button;
+    private static PlayingCardView card;
+    private static Button left_button;
+    private static Button middle_button;
+    private static Button right_button;
     private static Deck deck;
     private static int count;
     private static int expectedCount;
-    private CountDownTimer countDownTimer;
+    private static CountDownTimer countDownTimer;
+    private static long timePerCard = 5;
+    private static int secondsLeft = 0;
+    private static int currentCardsCounted;
+    private static int totalCardsCounted;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,13 +46,9 @@ public class CountingActivity extends AppCompatActivity {
         toolbar.setTitle(R.string.app_name);
         setSupportActionBar(toolbar);
 
-        layout = (LinearLayout) findViewById(R.id.content_counting_layout);
         prompt = (TextView) findViewById(R.id.prompt);
         time_header = (TextView) findViewById(R.id.time_header);
         time_tv = (TextView) findViewById(R.id.time);
-        time_set = (EditText) findViewById(R.id.time_set);
-        time_seconds = (TextView) findViewById(R.id.time_seconds);
-        time_set.setSelection(time_set.length());
         count_header = (TextView) findViewById(R.id.count_header);
         count_tv = (TextView) findViewById(R.id.count);
         card = (PlayingCardView) findViewById(R.id.card);
@@ -61,17 +56,12 @@ public class CountingActivity extends AppCompatActivity {
         middle_button = (Button) findViewById(R.id.middle_button);
         right_button = (Button) findViewById(R.id.right_button);
         count = 0;
+        currentCardsCounted = 0;
         count_tv.setText(String.format("%d", count));
         expectedCount = 0;
-        setLayout();
+        initCountDownTimer();
         setFirst();
         fadePrompt();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        if(countDownTimer != null) countDownTimer.cancel();
     }
 
     private void fadePrompt(){
@@ -101,17 +91,13 @@ public class CountingActivity extends AppCompatActivity {
 
     //PlayingCardView's onClickListener that starts the counting
     public void startCounting(View v) {
-        hideKeyboard(layout);
         card.setClickable(false);
         prompt.clearAnimation();
         time_header.setVisibility(View.VISIBLE);
         time_tv.setVisibility(View.VISIBLE);
-        time_set.setVisibility(View.GONE);
-        time_seconds.setVisibility(View.GONE);
         count_header.setVisibility(View.VISIBLE);
-        setCountDownTimer();
         count_tv.setVisibility(View.VISIBLE);
-        countDownTimer.start();
+        resetCountDownTimer();
         left_button.setVisibility(View.VISIBLE);
         middle_button.setVisibility(View.VISIBLE);
         right_button.setVisibility(View.VISIBLE);
@@ -121,30 +107,36 @@ public class CountingActivity extends AppCompatActivity {
     public void leftPress(View v){
         count--;
         if(count != expectedCount){
-            reset();
-            new Toast(this).makeText(this, "Wrong! Try again!", Toast.LENGTH_SHORT).show();
+            finishCounting();
             return;
         }
+        resetCountDownTimer();
+        currentCardsCounted++;
+        Log.w("left", String.format("%d", currentCardsCounted));
         count_tv.setText(String.format("%d", count));
         drawNext();
     }
 
     public void middlePress(View v){
         if(count != expectedCount){
-            reset();
-            new Toast(this).makeText(this, "Wrong! Try again!", Toast.LENGTH_SHORT).show();
+            finishCounting();
             return;
         }
+        resetCountDownTimer();
+        currentCardsCounted++;
+        Log.w("middle", String.format("%d", currentCardsCounted));
         drawNext();
     }
 
     public void rightPress(View v){
         count++;
         if(count != expectedCount) {
-            reset();
-            new Toast(this).makeText(this, "Wrong! Try again!", Toast.LENGTH_SHORT).show();
+            finishCounting();
             return;
         }
+        resetCountDownTimer();
+        currentCardsCounted++;
+        Log.w("right", String.format("%d", currentCardsCounted));
         count_tv.setText(String.format("%d", count));
         drawNext();
     }
@@ -157,45 +149,38 @@ public class CountingActivity extends AppCompatActivity {
             Log.w("Counting", String.format("expectedAction: %d", expectedAction()));
         }
         catch(Deck.EmptyDeckException e){
-            reset();
-            new Toast(this).makeText(this, "Deck empty, tap card to replay", Toast.LENGTH_SHORT).show();
+            finishCounting();
         }
     }
 
     //Resets to beginning state
-    private void reset(){
-        left_button.setVisibility(View.INVISIBLE);
-        middle_button.setVisibility(View.INVISIBLE);
-        right_button.setVisibility(View.INVISIBLE);
-        time_header.setVisibility(View.INVISIBLE);
-        time_tv.setVisibility(View.INVISIBLE);
-        time_tv.refreshDrawableState();
-        countDownTimer.cancel();
-        count_header.setVisibility(View.INVISIBLE);
-        count_tv.setVisibility(View.INVISIBLE);
+    private static void reset(){
         count = 0;
         count_tv.setText(String.format("%d", count));
         expectedCount = 0;
+        currentCardsCounted = 0;
+        Log.w("currentCardsCounted", String.valueOf(currentCardsCounted));
         setFirst();
-        card.setClickable(true);
+        card.flip();
+        resetCountDownTimer();
     }
 
     //Sets the initial card
-    private void setFirst(){
+    private static void setFirst(){
         deck = new Deck();
         deck.shuffle(6);
         try{
             card.setCard(deck.draw(), false);
             setExpected();
-            Log.w("Counting", String.format("expectedAction: %d", expectedAction()));
+//            Log.w("Counting", String.format("expectedAction: %d", expectedAction()));
         }
         catch(Deck.EmptyDeckException e){
-
+            Log.w("EmptyDeckException", "called inside setFirst, should not happen");
         }
     }
 
     //Gets the next increment based on next card value
-    private void setExpected(){
+    private static void setExpected(){
         int value = card.getCardValue();
         if(value < 7) expectedCount++;
         if(value > 9) expectedCount--;
@@ -209,34 +194,66 @@ public class CountingActivity extends AppCompatActivity {
         else return -1;
     }
 
-    // Set up the countdown timer
-    private void setCountDownTimer() {
-        long time = Long.parseLong(time_set.getText().toString()) * 1000;
-        countDownTimer = new CountDownTimer(time, 1000) {
+    //Reset the countdown timer
+    private static void resetCountDownTimer() {
+        countDownTimer.cancel();
+        countDownTimer.start();
+    }
+
+    //Initializes the CountDownTimer
+    private void initCountDownTimer(){
+        double bufferedTime = timePerCard + .3;
+        bufferedTime = bufferedTime * 1000;
+        countDownTimer = new CountDownTimer((long) bufferedTime, 100) {
             public void onTick(long millisUntilFinished) {
-                time_tv.setText(String.valueOf(millisUntilFinished/1000) + " s");
+                if (Math.round((float)millisUntilFinished / 1000.0f) != secondsLeft)
+                {
+                    secondsLeft = Math.round((float)millisUntilFinished / 1000.0f);
+                    time_tv.setText(String.format("%d", secondsLeft));
+                    if(secondsLeft < 1) finishCounting();
+                }
             }
             public void onFinish() {
-                reset();
-                new Toast(CountingActivity.this).makeText(CountingActivity.this, "Out of time! Try again.", Toast.LENGTH_SHORT).show();
-                return;
+                finishCounting();
             }
         };
     }
 
-    private void setLayout() {
-        layout.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                hideKeyboard(v);
-                return false;
-            }
-        });
+    //Ends the current counting session
+    private void finishCounting(){
+        countDownTimer.cancel();
+        GameOverFragment gameOver = new GameOverFragment();
+        gameOver.setCancelable(false);
+        gameOver.show(getSupportFragmentManager(), "gameover");
     }
-    // Hide the keyboard used to set the timer
-    private void hideKeyboard(View view) {
-        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+
+    public static class GameOverFragment extends DialogFragment {
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            totalCardsCounted += currentCardsCounted;
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            builder.setTitle("Game Over!")
+                    .setMessage(String.format("You counted %d cards. Would you like to play again?", currentCardsCounted))
+                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            reset();
+                        }
+                    })
+                    .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            Intent intent = new Intent(getContext(), MenuActivity.class);
+                            startActivity(intent);
+                        }
+                    });
+            return builder.create();
+        }
+    }
+
+    //Stop timer on activity end
+    @Override
+    public void onBackPressed(){
+        countDownTimer.cancel();
+        super.onBackPressed();
     }
 }
 
