@@ -22,7 +22,7 @@
         android:layout_gravity="center_horizontal"/>
 
     <View
-        android:layout_width="175dp"
+        android:layout_width="150dp"
         android:layout_height="2dp"
         android:id="@+id/div"/>
 
