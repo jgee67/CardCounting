@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.SystemClock;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -14,8 +15,8 @@ import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.widget.Button;
+import android.widget.Chronometer;
 import android.widget.TextView;
-import android.widget.Toast;
 
 
 public class CountingActivity extends AppCompatActivity {
@@ -41,6 +42,7 @@ public class CountingActivity extends AppCompatActivity {
     private static int totalCardsCounted;
     private static int sessionTime;
     private static int totalTime;
+    private static Chronometer chron;
     private static boolean success;
 
     @Override
@@ -70,6 +72,7 @@ public class CountingActivity extends AppCompatActivity {
         time_tv.setText(String.format("%d", timePerCard));
         sessionTime = 0;
         success = false;
+        chron = new Chronometer(this);
         initCountDownTimer();
         setFirst();
         fadePrompt();
@@ -114,6 +117,8 @@ public class CountingActivity extends AppCompatActivity {
         middle_button.setVisibility(View.VISIBLE);
         right_button.setVisibility(View.VISIBLE);
         card.flip();
+        chron.setBase(SystemClock.elapsedRealtime());
+        chron.start();
     }
 
     public void leftPress(View v){
@@ -176,6 +181,9 @@ public class CountingActivity extends AppCompatActivity {
         setFirst();
         card.flip();
         resetCountDownTimer();
+        chron.stop();
+        chron.setBase(SystemClock.elapsedRealtime());
+        chron.start();
     }
 
     //Sets the initial card
@@ -213,7 +221,6 @@ public class CountingActivity extends AppCompatActivity {
                 if (Math.round((float)millisUntilFinished / 1000.0f) != secondsLeft) {
                     secondsLeft = Math.round((float)millisUntilFinished / 1000.0f);
                     time_tv.setText(String.format("%d", secondsLeft));
-                    if(secondsLeft != timePerCard) sessionTime++;
                     if(secondsLeft < 1) finishCounting();
                 }
             }
@@ -226,6 +233,8 @@ public class CountingActivity extends AppCompatActivity {
     //Ends the current counting session
     private void finishCounting(){
         countDownTimer.cancel();
+        sessionTime = (int) Math.round((SystemClock.elapsedRealtime() - chron.getBase()) / 1000.0);
+        chron.stop();
         GameOverFragment gameOver = new GameOverFragment();
         gameOver.setCancelable(false);
         gameOver.show(getSupportFragmentManager(), "gameover");
@@ -237,15 +246,15 @@ public class CountingActivity extends AppCompatActivity {
             totalCardsCounted += currentCardsCounted;
             totalTime += sessionTime;
             String title = "Game Over!";
-            String message = "You counted %d cards. Would you like to try again?";
+            String message = "You counted %d cards in %d seconds. Would you like to try again?";
             if(success){
                 success = false;
                 title = "Congratulations!";
-                message = "You counted all %d cards! Would you like to play again?";
+                message = "You counted all %d cards in %d seconds! Would you like to play again?";
             }
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
             builder.setTitle(title)
-                    .setMessage(String.format(message, currentCardsCounted))
+                    .setMessage(String.format(message, currentCardsCounted, sessionTime))
                     .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                             reset();
@@ -265,18 +274,21 @@ public class CountingActivity extends AppCompatActivity {
     @Override
     public void onBackPressed(){
         countDownTimer.cancel();
+        chron.stop();
         super.onBackPressed();
     }
 
     @Override
     public void onPause(){
         countDownTimer.cancel();
+        chron.stop();
         super.onPause();
     }
 
     @Override
     public void onDestroy(){
         countDownTimer.cancel();
+        chron.stop();
         super.onDestroy();
     }
 }
