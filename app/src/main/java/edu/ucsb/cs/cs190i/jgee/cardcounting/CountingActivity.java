@@ -11,7 +11,6 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Menu;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
@@ -252,6 +251,8 @@ public class CountingActivity extends AppCompatActivity {
         countDownTimer.cancel();
         sessionTime = (int) Math.round((SystemClock.elapsedRealtime() - chron.getBase()) / 1000.0);
         chron.stop();
+        totalCardsCounted += currentCardsCounted;
+        totalTime += sessionTime;
         GameOverFragment gameOver = new GameOverFragment();
         gameOver.setCancelable(false);
         gameOver.show(getSupportFragmentManager(), "gameover");
@@ -260,8 +261,6 @@ public class CountingActivity extends AppCompatActivity {
     public static class GameOverFragment extends DialogFragment {
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
-            totalCardsCounted += currentCardsCounted;
-            totalTime += sessionTime;
             String title = "Game Over!";
             String message = "You counted %d cards in %d seconds. Would you like to try again?";
             if(success){
