@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.SystemClock;
+import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -17,9 +18,15 @@ import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.TextView;
+import java.util.ArrayList;
+import java.util.Random;
 
 
 public class CountingActivity extends AppCompatActivity {
+
+    private static final String PLUS = "PLUS";
+    private static final String ZERO = "ZERO";
+    private static final String MINUS = "MINUS";
 
     private static TextView prompt;
     private static TextView time_header;
@@ -41,6 +48,7 @@ public class CountingActivity extends AppCompatActivity {
     private static int sessionTime;
     private static Chronometer chron;
     private static boolean success;
+    private static final ArrayList<String> random = new ArrayList<>();
 
     private static int timePerCard;
     private static int numDecks;
@@ -85,10 +93,16 @@ public class CountingActivity extends AppCompatActivity {
         currentCardsCounted = 0;
         cards_counted.setText(String.format("%d", currentCardsCounted));
         expectedCount = 0;
-        time_tv.setText(String.format("%d", timePerCard));
+        if(isTimerOffMode) time_tv.setText(R.string.disabled);
+        else time_tv.setText(String.format("%d", timePerCard));
         sessionTime = 0;
         success = false;
         chron = new Chronometer(this);
+        random.clear();
+        random.add(0, PLUS);
+        random.add(0, ZERO);
+        random.add(0, MINUS);
+        setButtons();
         initCountDownTimer();
         setFirst();
         fadePrompt();
@@ -124,8 +138,10 @@ public class CountingActivity extends AppCompatActivity {
         card.setClickable(false);
         time_header.setVisibility(View.VISIBLE);
         time_tv.setVisibility(View.VISIBLE);
-        count_header.setVisibility(View.VISIBLE);
-        count_tv.setVisibility(View.VISIBLE);
+        if(!isActualCountMode){
+            count_header.setVisibility(View.VISIBLE);
+            count_tv.setVisibility(View.VISIBLE);
+        }
         cards_counted_header.setVisibility(View.VISIBLE);
         cards_counted.setVisibility(View.VISIBLE);
         resetCountDownTimer();
@@ -137,53 +153,115 @@ public class CountingActivity extends AppCompatActivity {
         chron.start();
     }
 
-    public void leftPress(View v){
-        count--;
-        if(count != expectedCount){
-            finishCounting();
-            return;
+    public class minusPress implements View.OnClickListener {
+
+        @Override
+        public void onClick(View v){
+            count--;
+            if(count != expectedCount){
+                finishCounting();
+                return;
+            }
+            if(isRandomizeButtonsMode){
+                setRandomButton(left_button);
+                setRandomButton(middle_button);
+                setRandomButton(right_button);
+            }
+            else if(isActualCountMode){
+                left_button.setText(String.format("%d", count - 1));
+                middle_button.setText(String.format("%d", count));
+                right_button.setText(String.format("%d", count + 1));
+            }
+            resetCountDownTimer();
+            currentCardsCounted++;
+            count_tv.setText(String.format("%d", count));
+            cards_counted.setText(String.format("%d", currentCardsCounted));
+            drawNext();
         }
-        resetCountDownTimer();
-        currentCardsCounted++;
-        count_tv.setText(String.format("%d", count));
-        cards_counted.setText(String.format("%d", currentCardsCounted));
-        drawNext();
+
     }
 
-    public void middlePress(View v){
-        if(count != expectedCount){
-            finishCounting();
-            return;
+    public class zeroPress implements View.OnClickListener {
+
+        @Override
+        public void onClick(View v){
+            if(count != expectedCount){
+                finishCounting();
+                return;
+            }
+            if(isRandomizeButtonsMode){
+                setRandomButton(left_button);
+                setRandomButton(middle_button);
+                setRandomButton(right_button);
+            }
+            resetCountDownTimer();
+            currentCardsCounted++;
+            cards_counted.setText(String.format("%d", currentCardsCounted));
+            drawNext();
         }
-        resetCountDownTimer();
-        currentCardsCounted++;
-        cards_counted.setText(String.format("%d", currentCardsCounted));
-        drawNext();
+
     }
 
-    public void rightPress(View v){
-        count++;
-        if(count != expectedCount) {
-            finishCounting();
-            return;
+    public class plusPress implements View.OnClickListener{
+
+        @Override
+        public void onClick(View v){
+            count++;
+            if(count != expectedCount) {
+                finishCounting();
+                return;
+            }
+            if(isRandomizeButtonsMode){
+                setRandomButton(left_button);
+                setRandomButton(middle_button);
+                setRandomButton(right_button);
+            }
+            else if(isActualCountMode){
+                left_button.setText(String.format("%d", count - 1));
+                middle_button.setText(String.format("%d", count));
+                right_button.setText(String.format("%d", count + 1));
+            }
+            resetCountDownTimer();
+            currentCardsCounted++;
+            count_tv.setText(String.format("%d", count));
+            cards_counted.setText(String.format("%d", currentCardsCounted));
+            drawNext();
         }
-        resetCountDownTimer();
-        currentCardsCounted++;
-        count_tv.setText(String.format("%d", count));
-        cards_counted.setText(String.format("%d", currentCardsCounted));
-        drawNext();
+
     }
 
     //Helper used in button clicks, draws next card and resets field on empty deck
     private void drawNext(){
-        try {
-            card.setCard(deck.draw(), true);
+        if(isEndlessMode){
+            card.setCard(randomCard(), true);
             setExpected();
         }
-        catch(Deck.EmptyDeckException e){
-            success = true;
-            finishCounting();
+        else {
+            try {
+                card.setCard(deck.draw(), true);
+                setExpected();
+            } catch (Deck.EmptyDeckException e) {
+                success = true;
+                finishCounting();
+            }
         }
+    }
+
+    //Helper used to generate random card for endless mode (no deck)
+    private PlayingCard randomCard(){
+        Random rand = new Random();
+        int randomSuit = rand.nextInt(4);
+        int randomVal = rand.nextInt(13);
+        try {
+            return new PlayingCard(randomSuit, randomVal);
+        }
+        catch(PlayingCard.IllegalSuitException e){
+            System.exit(-1);
+        }
+        catch(PlayingCard.IllegalValueException e){
+            System.exit(-2);
+        }
+        return null;
     }
 
     //Resets to beginning state
@@ -236,12 +314,15 @@ public class CountingActivity extends AppCompatActivity {
             public void onTick(long millisUntilFinished) {
                 if (Math.round((float)millisUntilFinished / 1000.0f) != secondsLeft) {
                     secondsLeft = Math.round((float)millisUntilFinished / 1000.0f);
-                    time_tv.setText(String.format("%d", secondsLeft));
-                    if(secondsLeft < 1) finishCounting();
+                    if(!isTimerOffMode) {
+                        time_tv.setText(String.format("%d", secondsLeft));
+                        if (secondsLeft < 1) finishCounting();
+                    }
                 }
             }
+            //Only finishes on TimerOff mode
             public void onFinish() {
-                finishCounting();
+                //do nothing
             }
         };
     }
@@ -258,9 +339,58 @@ public class CountingActivity extends AppCompatActivity {
         gameOver.show(getSupportFragmentManager(), "gameover");
     }
 
+    //initializes buttons
+    private void setButtons(){
+        if(isRandomizeButtonsMode){
+            setRandomButton(left_button);
+            setRandomButton(middle_button);
+            setRandomButton(right_button);
+        } else {
+            left_button.setText("-1");
+            middle_button.setText("0");
+            right_button.setText("+1");
+            if (isActualCountMode) {
+                left_button.setText(String.format("%d", count - 1));
+                middle_button.setText(String.format("%d", count));
+                right_button.setText(String.format("%d", count + 1));
+            }
+            left_button.setOnClickListener(new minusPress());
+            middle_button.setOnClickListener(new zeroPress());
+            right_button.setOnClickListener(new plusPress());
+        }
+    }
+
+    //Sets a button randomly as minus, zero, or plus
+    private void setRandomButton(Button button){
+        Random rand = new Random();
+        int randIndex = rand.nextInt(random.size());
+        String task = random.remove(randIndex);
+        if(task.equals(MINUS)){
+            button.setText("-1");
+            if(isActualCountMode) button.setText(String.format("%d", count - 1));
+            button.setOnClickListener(new minusPress());
+        }
+        if(task.equals(ZERO)){
+            button.setText("0");
+            if(isActualCountMode) button.setText(String.format("%d", count));
+            button.setOnClickListener(new zeroPress());
+        }
+        if(task.equals(PLUS)){
+            button.setText("+1");
+            if(isActualCountMode) button.setText(String.format("%d", count + 1));
+            button.setOnClickListener(new plusPress());
+        }
+        if(random.size() == 0){
+            random.add(0, PLUS);
+            random.add(0, ZERO);
+            random.add(0, MINUS);
+        }
+    }
+
+    //DialogFragment that displays when the game is over
     public static class GameOverFragment extends DialogFragment {
         @Override
-        public Dialog onCreateDialog(Bundle savedInstanceState) {
+        public Dialog onCreateDialog(@NonNull Bundle savedInstanceState) {
             String title = "Game Over!";
             String message = "You counted %d cards in %d seconds. Would you like to try again?";
             if(success){

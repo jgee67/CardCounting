@@ -20,7 +20,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Time: "
+            android:text="@string/time_header"
             android:textSize="40sp"
             android:id="@+id/time_header"
             android:visibility="invisible"/>
@@ -41,7 +41,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Cards Counted: "
+            android:text="@string/cards_counted_header"
             android:textSize="40sp"
             android:id="@+id/cards_counted_header"
             android:visibility="invisible"/>
@@ -62,14 +62,13 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Count: "
+            android:text="@string/count_header"
             android:textSize="40sp"
             android:id="@+id/count_header"
             android:visibility="invisible"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="0"
             android:textSize="40sp"
             android:id="@+id/count"
             android:visibility="invisible"/>
@@ -78,7 +77,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Tap the card to begin"
+        android:text="@string/start_prompt"
         android:padding="20dp"
         android:textSize="40sp"
         android:id="@+id/prompt"/>
@@ -105,8 +104,6 @@
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="-1"
-                android:onClick="leftPress"
                 android:id="@+id/left_button"
                 android:visibility="invisible"/>
         </RelativeLayout>
@@ -120,8 +117,6 @@
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="0"
-                android:onClick="middlePress"
                 android:id="@+id/middle_button"
                 android:visibility="invisible"/>
         </RelativeLayout>
@@ -135,8 +130,6 @@
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="+1"
-                android:onClick="rightPress"
                 android:id="@+id/right_button"
                 android:visibility="invisible"/>
         </RelativeLayout>
