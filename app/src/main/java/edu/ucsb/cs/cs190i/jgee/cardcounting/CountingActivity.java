@@ -85,7 +85,8 @@ public class CountingActivity extends AppCompatActivity {
         currentCardsCounted = 0;
         cards_counted.setText(String.format("%d", currentCardsCounted));
         expectedCount = 0;
-        time_tv.setText(String.format("%d", timePerCard));
+        if(isTimerOffMode) time_tv.setText("Disabled");
+        else time_tv.setText(String.format("%d", timePerCard));
         sessionTime = 0;
         success = false;
         chron = new Chronometer(this);
@@ -236,12 +237,15 @@ public class CountingActivity extends AppCompatActivity {
             public void onTick(long millisUntilFinished) {
                 if (Math.round((float)millisUntilFinished / 1000.0f) != secondsLeft) {
                     secondsLeft = Math.round((float)millisUntilFinished / 1000.0f);
-                    time_tv.setText(String.format("%d", secondsLeft));
-                    if(secondsLeft < 1) finishCounting();
+                    if(!isTimerOffMode) {
+                        time_tv.setText(String.format("%d", secondsLeft));
+                        if (secondsLeft < 1) finishCounting();
+                    }
                 }
             }
+            //Only finishes on TimerOff mode
             public void onFinish() {
-                finishCounting();
+                //do nothing
             }
         };
     }
