@@ -18,6 +18,8 @@ import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.TextView;
 
+import java.util.Random;
+
 
 public class CountingActivity extends AppCompatActivity {
 
@@ -177,14 +179,36 @@ public class CountingActivity extends AppCompatActivity {
 
     //Helper used in button clicks, draws next card and resets field on empty deck
     private void drawNext(){
-        try {
-            card.setCard(deck.draw(), true);
+        if(isEndlessMode){
+            card.setCard(randomCard(), true);
             setExpected();
         }
-        catch(Deck.EmptyDeckException e){
-            success = true;
-            finishCounting();
+        else {
+            try {
+                card.setCard(deck.draw(), true);
+                setExpected();
+            } catch (Deck.EmptyDeckException e) {
+                success = true;
+                finishCounting();
+            }
         }
+    }
+
+    //Helper used to generate random card for endless mode (no deck)
+    private PlayingCard randomCard(){
+        Random rand = new Random();
+        int randomSuit = rand.nextInt(4);
+        int randomVal = rand.nextInt(13);
+        try {
+            return new PlayingCard(randomSuit, randomVal);
+        }
+        catch(PlayingCard.IllegalSuitException e){
+            System.exit(-1);
+        }
+        catch(PlayingCard.IllegalValueException e){
+            System.exit(-2);
+        }
+        return null;
     }
 
     //Resets to beginning state
@@ -262,6 +286,7 @@ public class CountingActivity extends AppCompatActivity {
         gameOver.show(getSupportFragmentManager(), "gameover");
     }
 
+    //DialogFragment that displays when the game is over
     public static class GameOverFragment extends DialogFragment {
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
