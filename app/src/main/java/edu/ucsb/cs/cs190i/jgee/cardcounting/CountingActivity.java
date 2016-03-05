@@ -11,6 +11,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
@@ -36,14 +37,20 @@ public class CountingActivity extends AppCompatActivity {
     private static int count;
     private static int expectedCount;
     private static CountDownTimer countDownTimer;
-    private static long timePerCard = 5;
     private static int secondsLeft = 0;
     private static int currentCardsCounted;
-    private static int totalCardsCounted;
     private static int sessionTime;
-    private static int totalTime;
     private static Chronometer chron;
     private static boolean success;
+
+    private static int timePerCard;
+    private static int numDecks;
+    private static boolean isTimerOffMode;
+    private static boolean isEndlessMode;
+    private static boolean isRandomizeButtonsMode;
+    private static boolean isActualCountMode;
+    private static int totalCardsCounted;
+    private static int totalTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +59,16 @@ public class CountingActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle(R.string.app_name);
         setSupportActionBar(toolbar);
+
+        Intent intent = getIntent();
+        timePerCard = intent.getIntExtra(MenuActivity.KEY_TIME_PER_CARD, 5);
+        numDecks = intent.getIntExtra(MenuActivity.KEY_NUM_DECKS, 1);
+        isTimerOffMode = intent.getBooleanExtra(MenuActivity.KEY_IS_TIMER_OFF, false);
+        isEndlessMode = intent.getBooleanExtra(MenuActivity.KEY_IS_ENDLESS, false);
+        isActualCountMode = intent.getBooleanExtra(MenuActivity.KEY_IS_ACTUAL_CNT, false);
+        isRandomizeButtonsMode= intent.getBooleanExtra(MenuActivity.KEY_IS_RAND_BTNS, false);
+        totalCardsCounted = intent.getIntExtra(MenuActivity.KEY_TOTAL_CARDS, 0);
+        totalTime = intent.getIntExtra(MenuActivity.KEY_TOTAL_TIME, 0);
 
         prompt = (TextView) findViewById(R.id.prompt);
         time_header = (TextView) findViewById(R.id.time_header);
@@ -188,7 +205,7 @@ public class CountingActivity extends AppCompatActivity {
 
     //Sets the initial card
     private static void setFirst(){
-        deck = new Deck();
+        deck = new Deck(numDecks);
         deck.shuffle(6);
         try{
             card.setCard(deck.draw(), false);
@@ -263,6 +280,14 @@ public class CountingActivity extends AppCompatActivity {
                     .setNegativeButton("No", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                             Intent intent = new Intent(getContext(), MenuActivity.class);
+                            intent.putExtra(MenuActivity.KEY_TIME_PER_CARD, timePerCard);
+                            intent.putExtra(MenuActivity.KEY_NUM_DECKS, numDecks);
+                            intent.putExtra(MenuActivity.KEY_IS_TIMER_OFF, isTimerOffMode);
+                            intent.putExtra(MenuActivity.KEY_IS_ACTUAL_CNT, isActualCountMode);
+                            intent.putExtra(MenuActivity.KEY_IS_ENDLESS, isEndlessMode);
+                            intent.putExtra(MenuActivity.KEY_IS_RAND_BTNS, isRandomizeButtonsMode);
+                            intent.putExtra(MenuActivity.KEY_TOTAL_CARDS, totalCardsCounted);
+                            intent.putExtra(MenuActivity.KEY_TOTAL_TIME, totalTime);
                             startActivity(intent);
                         }
                     });

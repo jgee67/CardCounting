@@ -12,19 +12,23 @@ import android.view.View;
 public class MenuActivity extends AppCompatActivity {
     private static final String LOG = "MENU_LOG";
 
-    private static final String KEY_TIME_PER_CARD = "KEY_TIME_PER_CARD";
-    private static final String KEY_NUM_DECKS = "KEY_NUM_DECKS";
-    private static final String KEY_IS_TIMER_OFF = "KEY_IS_TIMER_OFF";
-    private static final String KEY_IS_ENDLESS = "KEY_IS_ENDLESS";
-    private static final String KEY_IS_ACTUAL_CNT = "KEY_IS_ACTUAL_CNT";
-    private static final String KEY_IS_RAND_BTNS = "KEY_IS_RAND_BTNS";
+    public static final String KEY_TIME_PER_CARD = "KEY_TIME_PER_CARD";
+    public static final String KEY_NUM_DECKS = "KEY_NUM_DECKS";
+    public static final String KEY_IS_TIMER_OFF = "KEY_IS_TIMER_OFF";
+    public static final String KEY_IS_ENDLESS = "KEY_IS_ENDLESS";
+    public static final String KEY_IS_ACTUAL_CNT = "KEY_IS_ACTUAL_CNT";
+    public static final String KEY_IS_RAND_BTNS = "KEY_IS_RAND_BTNS";
+    public static final String KEY_TOTAL_CARDS = "KEY_TOTAL_CARDS";
+    public static final String KEY_TOTAL_TIME = "KEY_TOTAL_TIME";
 
-    private int timePerCard;
-    private int numDecks;
-    private boolean isTimerOffMode;
-    private boolean isEndlessMode;
-    private boolean isRandomizeButtonsMode;
-    private boolean isActualCountMode;
+    private static int timePerCard;
+    private static int numDecks;
+    private static boolean isTimerOffMode;
+    private static boolean isEndlessMode;
+    private static boolean isRandomizeButtonsMode;
+    private static boolean isActualCountMode;
+    private static int totalCardsCounted;
+    private static int totalTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +45,8 @@ public class MenuActivity extends AppCompatActivity {
         isEndlessMode = intent.getBooleanExtra(KEY_IS_ENDLESS, false);
         isActualCountMode = intent.getBooleanExtra(KEY_IS_ACTUAL_CNT, false);
         isRandomizeButtonsMode= intent.getBooleanExtra(KEY_IS_RAND_BTNS, false);
+        totalCardsCounted = intent.getIntExtra(KEY_TOTAL_CARDS, 0);
+        totalTime = intent.getIntExtra(KEY_TOTAL_TIME, 0);
 
         printDebugLog();
     }
@@ -84,6 +90,14 @@ public class MenuActivity extends AppCompatActivity {
                 intent = new Intent(this, CountingActivity.class);
                 break;
         }
+        intent.putExtra(MenuActivity.KEY_TIME_PER_CARD, timePerCard);
+        intent.putExtra(MenuActivity.KEY_NUM_DECKS, numDecks);
+        intent.putExtra(MenuActivity.KEY_IS_TIMER_OFF, isTimerOffMode);
+        intent.putExtra(MenuActivity.KEY_IS_ACTUAL_CNT, isActualCountMode);
+        intent.putExtra(MenuActivity.KEY_IS_ENDLESS, isEndlessMode);
+        intent.putExtra(MenuActivity.KEY_IS_RAND_BTNS, isRandomizeButtonsMode);
+        intent.putExtra(MenuActivity.KEY_TOTAL_CARDS, totalCardsCounted);
+        intent.putExtra(MenuActivity.KEY_TOTAL_TIME, totalTime);
         startActivity(intent);
     }
 

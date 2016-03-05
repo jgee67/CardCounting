@@ -20,14 +20,6 @@ public class OptionsActivity extends AppCompatActivity {
     private static final int OPTION_MAX = 10;
     private static final int NUM_DECKS_DEFAULT = 1;
 
-    // Keys for saving state and intents
-    private static final String KEY_TIME_PER_CARD = "KEY_TIME_PER_CARD";
-    private static final String KEY_NUM_DECKS = "KEY_NUM_DECKS";
-    private static final String KEY_IS_TIMER_OFF = "KEY_IS_TIMER_OFF";
-    private static final String KEY_IS_ENDLESS = "KEY_IS_ENDLESS";
-    private static final String KEY_IS_ACTUAL_CNT = "KEY_IS_ACTUAL_CNT";
-    private static final String KEY_IS_RAND_BTNS = "KEY_IS_RAND_BTNS";
-
     private static CheckBox timer_off_cb;
     private static TextView time_option_tv;
     private static CheckBox endless_mode_cb;
@@ -37,12 +29,14 @@ public class OptionsActivity extends AppCompatActivity {
     private static NumberPicker time_picker;
     private static NumberPicker deck_picker;
 
-    private int timePerCard = TIME_PER_CARD_DEFAULT;
-    private int numDecks = NUM_DECKS_DEFAULT;
-    private boolean isTimerOffMode;
-    private boolean isEndlessMode;
-    private boolean isRandomizeButtonsMode;
-    private boolean isActualCountMode;
+    private static int timePerCard;
+    private static int numDecks;
+    private static boolean isTimerOffMode;
+    private static boolean isEndlessMode;
+    private static boolean isRandomizeButtonsMode;
+    private static boolean isActualCountMode;
+    private static int totalCardsCounted;
+    private static int totalTime;
 
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
@@ -152,12 +146,12 @@ public class OptionsActivity extends AppCompatActivity {
 
     // Set the default values for each option.
     public void setOptionValues() {
-        timePerCard = sharedPreferences.getInt(KEY_TIME_PER_CARD, TIME_PER_CARD_DEFAULT);
-        numDecks = sharedPreferences.getInt(KEY_NUM_DECKS, NUM_DECKS_DEFAULT);
-        isTimerOffMode = sharedPreferences.getBoolean(KEY_IS_TIMER_OFF, false);
-        isEndlessMode = sharedPreferences.getBoolean(KEY_IS_ENDLESS, false);
-        isActualCountMode = sharedPreferences.getBoolean(KEY_IS_ACTUAL_CNT, false);
-        isRandomizeButtonsMode = sharedPreferences.getBoolean(KEY_IS_RAND_BTNS, false);
+        timePerCard = sharedPreferences.getInt(MenuActivity.KEY_TIME_PER_CARD, TIME_PER_CARD_DEFAULT);
+        numDecks = sharedPreferences.getInt(MenuActivity.KEY_NUM_DECKS, NUM_DECKS_DEFAULT);
+        isTimerOffMode = sharedPreferences.getBoolean(MenuActivity.KEY_IS_TIMER_OFF, false);
+        isEndlessMode = sharedPreferences.getBoolean(MenuActivity.KEY_IS_ENDLESS, false);
+        isActualCountMode = sharedPreferences.getBoolean(MenuActivity.KEY_IS_ACTUAL_CNT, false);
+        isRandomizeButtonsMode = sharedPreferences.getBoolean(MenuActivity.KEY_IS_RAND_BTNS, false);
         updateOptionsUI();
     }
 
@@ -182,12 +176,12 @@ public class OptionsActivity extends AppCompatActivity {
         saveSharedPrefs();
 
         Intent optionsIntent = new Intent(this, MenuActivity.class);
-        optionsIntent.putExtra(KEY_TIME_PER_CARD, timePerCard);
-        optionsIntent.putExtra(KEY_NUM_DECKS, numDecks);
-        optionsIntent.putExtra(KEY_IS_TIMER_OFF, isTimerOffMode);
-        optionsIntent.putExtra(KEY_IS_ACTUAL_CNT, isActualCountMode);
-        optionsIntent.putExtra(KEY_IS_ENDLESS, isEndlessMode);
-        optionsIntent.putExtra(KEY_IS_RAND_BTNS, isRandomizeButtonsMode);
+        optionsIntent.putExtra(MenuActivity.KEY_TIME_PER_CARD, timePerCard);
+        optionsIntent.putExtra(MenuActivity.KEY_NUM_DECKS, numDecks);
+        optionsIntent.putExtra(MenuActivity.KEY_IS_TIMER_OFF, isTimerOffMode);
+        optionsIntent.putExtra(MenuActivity.KEY_IS_ACTUAL_CNT, isActualCountMode);
+        optionsIntent.putExtra(MenuActivity.KEY_IS_ENDLESS, isEndlessMode);
+        optionsIntent.putExtra(MenuActivity.KEY_IS_RAND_BTNS, isRandomizeButtonsMode);
         startActivity(optionsIntent);
     }
 
@@ -202,12 +196,12 @@ public class OptionsActivity extends AppCompatActivity {
     }
 
     private void saveSharedPrefs() {
-        editor.putInt(KEY_TIME_PER_CARD, timePerCard);
-        editor.putInt(KEY_NUM_DECKS, numDecks);
-        editor.putBoolean(KEY_IS_TIMER_OFF, isTimerOffMode);
-        editor.putBoolean(KEY_IS_ENDLESS, isEndlessMode);
-        editor.putBoolean(KEY_IS_ACTUAL_CNT, isActualCountMode);
-        editor.putBoolean(KEY_IS_RAND_BTNS, isRandomizeButtonsMode);
+        editor.putInt(MenuActivity.KEY_TIME_PER_CARD, timePerCard);
+        editor.putInt(MenuActivity.KEY_NUM_DECKS, numDecks);
+        editor.putBoolean(MenuActivity.KEY_IS_TIMER_OFF, isTimerOffMode);
+        editor.putBoolean(MenuActivity.KEY_IS_ENDLESS, isEndlessMode);
+        editor.putBoolean(MenuActivity.KEY_IS_ACTUAL_CNT, isActualCountMode);
+        editor.putBoolean(MenuActivity.KEY_IS_RAND_BTNS, isRandomizeButtonsMode);
         editor.commit();
     }
 
