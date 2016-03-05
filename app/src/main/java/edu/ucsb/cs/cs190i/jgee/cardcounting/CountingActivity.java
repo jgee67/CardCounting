@@ -102,7 +102,6 @@ public class CountingActivity extends AppCompatActivity {
         random.add(0, PLUS);
         random.add(0, ZERO);
         random.add(0, MINUS);
-        Log.w("random size before set", String.format("%d", random.size()));
         setButtons();
         initCountDownTimer();
         setFirst();
@@ -338,6 +337,7 @@ public class CountingActivity extends AppCompatActivity {
         gameOver.show(getSupportFragmentManager(), "gameover");
     }
 
+    //initializes buttons
     private void setButtons(){
         if(isRandomizeButtonsMode){
             setRandomButton(left_button);
@@ -358,6 +358,7 @@ public class CountingActivity extends AppCompatActivity {
         }
     }
 
+    //Sets a button randomly as minus, zero, or plus
     private void setRandomButton(Button button){
         Random rand = new Random();
         int randIndex = rand.nextInt(random.size());
@@ -377,7 +378,6 @@ public class CountingActivity extends AppCompatActivity {
             if(isActualCountMode) button.setText(String.format("%d", count + 1));
             button.setOnClickListener(new plusPress());
         }
-        Log.w("random.size", String.format("%d", random.size()));
         if(random.size() == 0){
             random.add(0, PLUS);
             random.add(0, ZERO);
