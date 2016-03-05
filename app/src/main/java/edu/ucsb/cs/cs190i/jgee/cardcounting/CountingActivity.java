@@ -64,7 +64,7 @@ public class CountingActivity extends AppCompatActivity {
         left_button = (Button) findViewById(R.id.left_button);
         middle_button = (Button) findViewById(R.id.middle_button);
         right_button = (Button) findViewById(R.id.right_button);
-        count = 0;
+        count = 0; // player's count
         count_tv.setText(String.format("%d", count));
         currentCardsCounted = 0;
         cards_counted.setText(String.format("%d", currentCardsCounted));

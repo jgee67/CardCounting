@@ -119,9 +119,9 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/ok_btn"
-            android:id="@+id/ok_btn"
-            android:onClick="onOKClick" />
+            android:text="@string/save_btn"
+            android:id="@+id/save_btn"
+            android:onClick="onSaveClick" />
     </LinearLayout>
 
 </LinearLayout>

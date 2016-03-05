@@ -12,7 +12,7 @@
     <string name="endless_mode_cb">Endless</string>
     <string name="actual_count_cb">Keep Track of Running Count</string>
     <string name="random_buttons_cb">Randomize Buttons</string>
-    <string name="ok_btn">Save</string>
+    <string name="save_btn">Save</string>
     <string name="reset_btn">Reset to Defaults</string>
 
 
