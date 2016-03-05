@@ -138,8 +138,10 @@ public class CountingActivity extends AppCompatActivity {
         card.setClickable(false);
         time_header.setVisibility(View.VISIBLE);
         time_tv.setVisibility(View.VISIBLE);
-        count_header.setVisibility(View.VISIBLE);
-        count_tv.setVisibility(View.VISIBLE);
+        if(!isActualCountMode){
+            count_header.setVisibility(View.VISIBLE);
+            count_tv.setVisibility(View.VISIBLE);
+        }
         cards_counted_header.setVisibility(View.VISIBLE);
         cards_counted.setVisibility(View.VISIBLE);
         resetCountDownTimer();
