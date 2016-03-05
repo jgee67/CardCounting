@@ -1,44 +1,42 @@
 package edu.ucsb.cs.cs190i.jgee.cardcounting;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.content.SharedPreferences;
 
 public class OptionsActivity extends AppCompatActivity {
-    private static final long TIME_PER_CARD_DEFAULT = 5;
-    private static final long TIME_PER_CARD_MIN = 1;
-    private static final long TIME_PER_CARD_MAX = 10;
-
+    private static final String LOG = "OPTIONS_LOG";
+    private static final int TIME_PER_CARD_DEFAULT = 5;
+    private static final int OPTION_MIN = 1;
+    private static final int OPTION_MAX = 10;
     private static final int NUM_DECKS_DEFAULT = 1;
 
     private static CheckBox timer_off_cb;
     private static TextView time_option_tv;
-    private static TextView time_per_card_tv;
-    private static Button time_plus_btn;
-    private static Button time_minus_btn;
     private static CheckBox endless_mode_cb;
     private static TextView deck_option_tv;
-    private static TextView deck_count_tv;
-    private static Button deck_plus_btn;
-    private static Button deck_minus_btn;
     private static CheckBox actual_count_cb;
     private static CheckBox random_buttons_cb;
-    private static Button ok_btn;
-    private static Button reset_btn;
+    private static NumberPicker time_picker;
+    private static NumberPicker deck_picker;
 
-    private long timePerCard;
+    private static int timePerCard;
     private static int numDecks;
     private static boolean isTimerOffMode;
     private static boolean isEndlessMode;
     private static boolean isRandomizeButtonsMode;
     private static boolean isActualCountMode;
-
+    private static int totalCardsCounted;
+    private static int totalTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,23 +46,63 @@ public class OptionsActivity extends AppCompatActivity {
         toolbar.setTitle(R.string.app_name);
         setSupportActionBar(toolbar);
 
+        Intent intent = getIntent();
+        timePerCard = intent.getIntExtra(MenuActivity.KEY_TIME_PER_CARD, 5);
+        numDecks = intent.getIntExtra(MenuActivity.KEY_NUM_DECKS, 1);
+        isTimerOffMode = intent.getBooleanExtra(MenuActivity.KEY_IS_TIMER_OFF, false);
+        isEndlessMode = intent.getBooleanExtra(MenuActivity.KEY_IS_ENDLESS, false);
+        isActualCountMode = intent.getBooleanExtra(MenuActivity.KEY_IS_ACTUAL_CNT, false);
+        isRandomizeButtonsMode= intent.getBooleanExtra(MenuActivity.KEY_IS_RAND_BTNS, false);
+        totalCardsCounted = intent.getIntExtra(MenuActivity.KEY_TOTAL_CARDS, 0);
+        totalTime = intent.getIntExtra(MenuActivity.KEY_TOTAL_TIME, 0);
+
         timer_off_cb = (CheckBox) findViewById(R.id.timer_off_cb);
         time_option_tv = (TextView) findViewById(R.id.time_option_tv);
-        time_per_card_tv = (TextView) findViewById(R.id.time_per_card_tv);
-        time_plus_btn = (Button) findViewById(R.id.time_plus_btn);
-        time_minus_btn = (Button) findViewById(R.id.time_minus_btn);
         endless_mode_cb = (CheckBox) findViewById(R.id.endless_mode_cb);
         deck_option_tv = (TextView) findViewById(R.id.deck_option_tv);
-        deck_count_tv = (TextView) findViewById(R.id.deck_count_tv);
-        deck_plus_btn = (Button) findViewById(R.id.deck_plus_btn);
-        deck_minus_btn = (Button) findViewById(R.id.deck_minus_btn);
         actual_count_cb = (CheckBox) findViewById(R.id.actual_count_cb);
         random_buttons_cb = (CheckBox) findViewById(R.id.random_buttons_cb);
-        ok_btn = (Button) findViewById(R.id.ok_btn);
-        reset_btn = (Button) findViewById(R.id.reset_btn);
+
+
+        View div = findViewById(R.id.div);
+        div.setBackgroundColor(time_option_tv.getTextColors().getDefaultColor());
+        div.setAlpha((float) 0.5);
+
+        initTimePicker();
+        initDeckPicker();
 
         setupOnCheckChangeListeners();
-        setDefaultValues();
+        updateOptionsUI();
+    }
+
+    private void initTimePicker() {
+        time_picker = (NumberPicker) findViewById(R.id.time_picker);
+        time_picker.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
+        time_picker.setMinValue(OPTION_MIN);
+        time_picker.setMaxValue(OPTION_MAX);
+        time_picker.setValue(TIME_PER_CARD_DEFAULT);
+        time_picker.setWrapSelectorWheel(false);
+        time_picker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+                timePerCard = newVal;
+            }
+        });
+    }
+
+    private void initDeckPicker() {
+        deck_picker = (NumberPicker) findViewById(R.id.deck_picker);
+        deck_picker.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
+        deck_picker.setMinValue(OPTION_MIN);
+        deck_picker.setMaxValue(OPTION_MAX);
+        deck_picker.setValue(NUM_DECKS_DEFAULT);
+        deck_picker.setWrapSelectorWheel(false);
+        deck_picker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+                numDecks = newVal;
+            }
+        });
     }
 
     // Set up listeners for the checkbox fields
@@ -74,34 +112,26 @@ public class OptionsActivity extends AppCompatActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     isTimerOffMode = true;
-                    time_per_card_tv.setEnabled(false);
                     time_option_tv.setEnabled(false);
-                    time_plus_btn.setEnabled(false);
-                    time_minus_btn.setEnabled(false);
+                    time_picker.setEnabled(false);
                 } else {
                     isTimerOffMode = false;
-                    time_per_card_tv.setEnabled(true);
                     time_option_tv.setEnabled(true);
-                    time_plus_btn.setEnabled(true);
-                    time_minus_btn.setEnabled(true);
+                    time_picker.setEnabled(true);
                 }
             }
         });
         endless_mode_cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked) {
+                if (isChecked) {
                     isEndlessMode = true;
-                    deck_count_tv.setEnabled(false);
                     deck_option_tv.setEnabled(false);
-                    deck_plus_btn.setEnabled(false);
-                    deck_minus_btn.setEnabled(false);
+                    deck_picker.setEnabled(false);
                 } else {
                     isEndlessMode = false;
-                    deck_count_tv.setEnabled(true);
                     deck_option_tv.setEnabled(true);
-                    deck_plus_btn.setEnabled(true);
-                    deck_minus_btn.setEnabled(true);
+                    deck_picker.setEnabled(true);
                 }
             }
         });
@@ -119,52 +149,54 @@ public class OptionsActivity extends AppCompatActivity {
         });
     }
 
-    // Set the default values for each option.
-    public void setDefaultValues() {
+    // OnClick method for reset button - set options to default, need to hit save to confirm
+    public void onResetClick(View v) {
         timePerCard = TIME_PER_CARD_DEFAULT;
         numDecks = NUM_DECKS_DEFAULT;
         isTimerOffMode = false;
         isEndlessMode = false;
-        isRandomizeButtonsMode = false;
         isActualCountMode = false;
-        time_per_card_tv.setText(timePerCard + "");
-        deck_count_tv.setText(numDecks + "");
-    }
+        isRandomizeButtonsMode = false;
 
-    // OnClick method for time plus button
-    public void onTimePlusClick(View v) {
-        if(timePerCard < TIME_PER_CARD_MAX)
-            timePerCard++;
-        time_per_card_tv.setText(timePerCard + "");
-    }
+        updateOptionsUI();
 
-    // OnClick method for time minus button
-    public void onTimeMinusClick(View v) {
-        if(timePerCard > TIME_PER_CARD_MIN)
-        timePerCard--;
-        time_per_card_tv.setText(timePerCard + "");
-    }
-
-    // OnClick method for deck plus button
-    public void onDeckPlusClick(View v) {
-        numDecks++;
-        deck_count_tv.setText(numDecks + "");
-    }
-
-    // OnClick method for deck minus button
-    public void onDeckMinusClick(View v) {
-        if(numDecks > NUM_DECKS_DEFAULT)
-            numDecks--;
-        deck_count_tv.setText(numDecks + "");
-    }
-
-    // OnClick method for reset button - set options to default
-    public void onResetClick(View v) {
-        setDefaultValues();
-        Toast.makeText(this, "Options have been reset to its default values.", Toast.LENGTH_SHORT)
+        Toast.makeText(this, "Press \"Save\" to confirm reset to default values.", Toast.LENGTH_SHORT)
                 .show();
     }
 
-    // OnClick method for OK button
-    public void onOKClick(View v) {}
+    // OnClick method for Save button
+    public void onSaveClick(View v) {
+        printDebugLog();
+
+        Intent optionsIntent = new Intent(this, MenuActivity.class);
+        optionsIntent.putExtra(MenuActivity.KEY_TIME_PER_CARD, timePerCard);
+        optionsIntent.putExtra(MenuActivity.KEY_NUM_DECKS, numDecks);
+        optionsIntent.putExtra(MenuActivity.KEY_IS_TIMER_OFF, isTimerOffMode);
+        optionsIntent.putExtra(MenuActivity.KEY_IS_ACTUAL_CNT, isActualCountMode);
+        optionsIntent.putExtra(MenuActivity.KEY_IS_ENDLESS, isEndlessMode);
+        optionsIntent.putExtra(MenuActivity.KEY_IS_RAND_BTNS, isRandomizeButtonsMode);
+        optionsIntent.putExtra(MenuActivity.KEY_TOTAL_CARDS, totalCardsCounted);
+        optionsIntent.putExtra(MenuActivity.KEY_TOTAL_TIME, totalTime);
+        startActivity(optionsIntent);
+    }
+
+    // Update UI with the current values in variables
+    private void updateOptionsUI() {
+        time_picker.setValue(timePerCard);
+        deck_picker.setValue(numDecks);
+        timer_off_cb.setChecked(isTimerOffMode);
+        endless_mode_cb.setChecked(isEndlessMode);
+        random_buttons_cb.setChecked(isRandomizeButtonsMode);
+        actual_count_cb.setChecked(isActualCountMode);
+    }
+
+    // Prints out the values stored in the option variables
+    private void printDebugLog() {
+        Log.v(LOG, "tpc: " + timePerCard);
+        Log.v(LOG, "numDecks: " + numDecks);
+        Log.v(LOG, "isTimerOff: " + isTimerOffMode);
+        Log.v(LOG, "isEndless: " + isEndlessMode);
+        Log.v(LOG, "isAcualCnt: " + isActualCountMode);
+        Log.v(LOG, "isRandBtns: " + isRandomizeButtonsMode);
+    }
 }
