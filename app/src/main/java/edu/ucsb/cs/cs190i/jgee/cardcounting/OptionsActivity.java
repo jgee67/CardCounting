@@ -11,7 +11,6 @@ import android.widget.CompoundButton;
 import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.content.SharedPreferences;
 
 public class OptionsActivity extends AppCompatActivity {
     private static final String LOG = "OPTIONS_LOG";
@@ -35,8 +34,6 @@ public class OptionsActivity extends AppCompatActivity {
     private static boolean isEndlessMode;
     private static boolean isRandomizeButtonsMode;
     private static boolean isActualCountMode;
-    private static int totalCardsCounted;
-    private static int totalTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,8 +50,6 @@ public class OptionsActivity extends AppCompatActivity {
         isEndlessMode = intent.getBooleanExtra(MenuActivity.KEY_IS_ENDLESS, false);
         isActualCountMode = intent.getBooleanExtra(MenuActivity.KEY_IS_ACTUAL_CNT, false);
         isRandomizeButtonsMode= intent.getBooleanExtra(MenuActivity.KEY_IS_RAND_BTNS, false);
-        totalCardsCounted = intent.getIntExtra(MenuActivity.KEY_TOTAL_CARDS, 0);
-        totalTime = intent.getIntExtra(MenuActivity.KEY_TOTAL_TIME, 0);
 
         timer_off_cb = (CheckBox) findViewById(R.id.timer_off_cb);
         time_option_tv = (TextView) findViewById(R.id.time_option_tv);
@@ -175,8 +170,6 @@ public class OptionsActivity extends AppCompatActivity {
         optionsIntent.putExtra(MenuActivity.KEY_IS_ACTUAL_CNT, isActualCountMode);
         optionsIntent.putExtra(MenuActivity.KEY_IS_ENDLESS, isEndlessMode);
         optionsIntent.putExtra(MenuActivity.KEY_IS_RAND_BTNS, isRandomizeButtonsMode);
-        optionsIntent.putExtra(MenuActivity.KEY_TOTAL_CARDS, totalCardsCounted);
-        optionsIntent.putExtra(MenuActivity.KEY_TOTAL_TIME, totalTime);
         startActivity(optionsIntent);
     }
 

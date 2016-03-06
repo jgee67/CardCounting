@@ -3,6 +3,7 @@ package edu.ucsb.cs.cs190i.jgee.cardcounting;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.SystemClock;
@@ -58,8 +59,7 @@ public class CountingActivity extends AppCompatActivity {
     private static boolean isEndlessMode;
     private static boolean isRandomizeButtonsMode;
     private static boolean isActualCountMode;
-    private static int totalCardsCounted;
-    private static int totalTime;
+    private static SharedPreferences sp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +69,8 @@ public class CountingActivity extends AppCompatActivity {
         toolbar.setTitle(R.string.app_name);
         setSupportActionBar(toolbar);
 
+        sp = this.getSharedPreferences(MenuActivity.PREFS, MODE_PRIVATE);
+
         Intent intent = getIntent();
         timePerCard = intent.getIntExtra(MenuActivity.KEY_TIME_PER_CARD, 5);
         numDecks = intent.getIntExtra(MenuActivity.KEY_NUM_DECKS, 1);
@@ -76,8 +78,6 @@ public class CountingActivity extends AppCompatActivity {
         isEndlessMode = intent.getBooleanExtra(MenuActivity.KEY_IS_ENDLESS, false);
         isActualCountMode = intent.getBooleanExtra(MenuActivity.KEY_IS_ACTUAL_CNT, false);
         isRandomizeButtonsMode= intent.getBooleanExtra(MenuActivity.KEY_IS_RAND_BTNS, false);
-        totalCardsCounted = intent.getIntExtra(MenuActivity.KEY_TOTAL_CARDS, 0);
-        totalTime = intent.getIntExtra(MenuActivity.KEY_TOTAL_TIME, 0);
 
         prompt = (TextView) findViewById(R.id.prompt);
         time_header = (TextView) findViewById(R.id.time_header);
@@ -336,8 +336,12 @@ public class CountingActivity extends AppCompatActivity {
         countDownTimer.cancel();
         sessionTime = (int) Math.round((SystemClock.elapsedRealtime() - chron.getBase()) / 1000.0);
         chron.stop();
-        totalCardsCounted += currentCardsCounted;
-        totalTime += sessionTime;
+
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putInt(MenuActivity.KEY_TOTAL_CARDS, sp.getInt(MenuActivity.KEY_TOTAL_CARDS, 0) + currentCardsCounted);
+        editor.putInt(MenuActivity.KEY_TOTAL_TIME, sp.getInt(MenuActivity.KEY_TOTAL_TIME, 0) + sessionTime);
+        editor.apply();
+
         GameOverFragment gameOver = new GameOverFragment();
         gameOver.setCancelable(false);
         gameOver.show(fragManager, "gameover");
@@ -419,8 +423,6 @@ public class CountingActivity extends AppCompatActivity {
                             intent.putExtra(MenuActivity.KEY_IS_ACTUAL_CNT, isActualCountMode);
                             intent.putExtra(MenuActivity.KEY_IS_ENDLESS, isEndlessMode);
                             intent.putExtra(MenuActivity.KEY_IS_RAND_BTNS, isRandomizeButtonsMode);
-                            intent.putExtra(MenuActivity.KEY_TOTAL_CARDS, totalCardsCounted);
-                            intent.putExtra(MenuActivity.KEY_TOTAL_TIME, totalTime);
                             startActivity(intent);
                         }
                     });

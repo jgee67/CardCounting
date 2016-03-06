@@ -3,6 +3,7 @@ package edu.ucsb.cs.cs190i.jgee.cardcounting;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
@@ -14,7 +15,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 public class MenuActivity extends AppCompatActivity {
     private static final String LOG = "MENU_LOG";
@@ -27,6 +27,7 @@ public class MenuActivity extends AppCompatActivity {
     public static final String KEY_IS_RAND_BTNS = "KEY_IS_RAND_BTNS";
     public static final String KEY_TOTAL_CARDS = "KEY_TOTAL_CARDS";
     public static final String KEY_TOTAL_TIME = "KEY_TOTAL_TIME";
+    public static final String PREFS = "CardCounting_prefs";
     private static FragmentManager fragManager;
 
     private static int timePerCard;
@@ -37,6 +38,7 @@ public class MenuActivity extends AppCompatActivity {
     private static boolean isActualCountMode;
     private static int totalCardsCounted;
     private static int totalTime;
+    private static SharedPreferences sp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,8 +57,9 @@ public class MenuActivity extends AppCompatActivity {
         isEndlessMode = intent.getBooleanExtra(KEY_IS_ENDLESS, false);
         isActualCountMode = intent.getBooleanExtra(KEY_IS_ACTUAL_CNT, false);
         isRandomizeButtonsMode= intent.getBooleanExtra(KEY_IS_RAND_BTNS, false);
-        totalCardsCounted = intent.getIntExtra(KEY_TOTAL_CARDS, 0);
-        totalTime = intent.getIntExtra(KEY_TOTAL_TIME, 0);
+        sp = this.getSharedPreferences(PREFS, MODE_PRIVATE);
+        totalCardsCounted = sp.getInt(KEY_TOTAL_CARDS, 0);
+        totalTime = sp.getInt(KEY_TOTAL_TIME, 0);
 
         printDebugLog();
     }
@@ -172,6 +175,10 @@ public class MenuActivity extends AppCompatActivity {
                         public void onClick(DialogInterface dialog, int id) {
                             totalCardsCounted = 0;
                             totalTime = 0;
+                            SharedPreferences.Editor editor = sp.edit();
+                            editor.putInt(KEY_TOTAL_CARDS, totalCardsCounted);
+                            editor.putInt(KEY_TOTAL_TIME, totalTime);
+                            editor.apply();
                             StatsFragment stats = new StatsFragment();
                             stats.setCancelable(false);
                             stats.show(fragManager, "stats");
