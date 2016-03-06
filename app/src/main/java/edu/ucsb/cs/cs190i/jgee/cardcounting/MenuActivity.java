@@ -172,7 +172,9 @@ public class MenuActivity extends AppCompatActivity {
                         public void onClick(DialogInterface dialog, int id) {
                             totalCardsCounted = 0;
                             totalTime = 0;
-                            new Toast(getContext()).makeText(getContext(), "Stats reset", Toast.LENGTH_SHORT).show();
+                            StatsFragment stats = new StatsFragment();
+                            stats.setCancelable(false);
+                            stats.show(fragManager, "stats");
                         }
                     })
                     .setNegativeButton("No", new DialogInterface.OnClickListener() {
