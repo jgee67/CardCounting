@@ -8,6 +8,7 @@ import android.os.CountDownTimer;
 import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -49,6 +50,7 @@ public class CountingActivity extends AppCompatActivity {
     private static Chronometer chron;
     private static boolean success;
     private static final ArrayList<String> random = new ArrayList<>();
+    private static FragmentManager fragManager;
 
     private static int timePerCard;
     private static int numDecks;
@@ -102,6 +104,7 @@ public class CountingActivity extends AppCompatActivity {
         random.add(0, PLUS);
         random.add(0, ZERO);
         random.add(0, MINUS);
+        fragManager = getSupportFragmentManager();
         setButtons();
         initCountDownTimer();
         setFirst();
@@ -153,7 +156,7 @@ public class CountingActivity extends AppCompatActivity {
         chron.start();
     }
 
-    public class minusPress implements View.OnClickListener {
+    public static class minusPress implements View.OnClickListener {
 
         @Override
         public void onClick(View v){
@@ -181,7 +184,7 @@ public class CountingActivity extends AppCompatActivity {
 
     }
 
-    public class zeroPress implements View.OnClickListener {
+    public static class zeroPress implements View.OnClickListener {
 
         @Override
         public void onClick(View v){
@@ -202,7 +205,7 @@ public class CountingActivity extends AppCompatActivity {
 
     }
 
-    public class plusPress implements View.OnClickListener{
+    public static class plusPress implements View.OnClickListener{
 
         @Override
         public void onClick(View v){
@@ -231,7 +234,7 @@ public class CountingActivity extends AppCompatActivity {
     }
 
     //Helper used in button clicks, draws next card and resets field on empty deck
-    private void drawNext(){
+    private static void drawNext(){
         if(isEndlessMode){
             card.setCard(randomCard(), true);
             setExpected();
@@ -248,7 +251,7 @@ public class CountingActivity extends AppCompatActivity {
     }
 
     //Helper used to generate random card for endless mode (no deck)
-    private PlayingCard randomCard(){
+    private static PlayingCard randomCard(){
         Random rand = new Random();
         int randomSuit = rand.nextInt(4);
         int randomVal = rand.nextInt(13);
@@ -272,6 +275,7 @@ public class CountingActivity extends AppCompatActivity {
         currentCardsCounted = 0;
         cards_counted.setText(String.format("%d", currentCardsCounted));
         sessionTime = 0;
+        setButtons();
         setFirst();
         card.flip();
         resetCountDownTimer();
@@ -328,7 +332,7 @@ public class CountingActivity extends AppCompatActivity {
     }
 
     //Ends the current counting session
-    private void finishCounting(){
+    private static void finishCounting(){
         countDownTimer.cancel();
         sessionTime = (int) Math.round((SystemClock.elapsedRealtime() - chron.getBase()) / 1000.0);
         chron.stop();
@@ -336,11 +340,11 @@ public class CountingActivity extends AppCompatActivity {
         totalTime += sessionTime;
         GameOverFragment gameOver = new GameOverFragment();
         gameOver.setCancelable(false);
-        gameOver.show(getSupportFragmentManager(), "gameover");
+        gameOver.show(fragManager, "gameover");
     }
 
     //initializes buttons
-    private void setButtons(){
+    private static void setButtons(){
         if(isRandomizeButtonsMode){
             setRandomButton(left_button);
             setRandomButton(middle_button);
@@ -361,7 +365,7 @@ public class CountingActivity extends AppCompatActivity {
     }
 
     //Sets a button randomly as minus, zero, or plus
-    private void setRandomButton(Button button){
+    private static void setRandomButton(Button button){
         Random rand = new Random();
         int randIndex = rand.nextInt(random.size());
         String task = random.remove(randIndex);
