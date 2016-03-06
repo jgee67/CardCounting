@@ -398,7 +398,7 @@ public class CountingActivity extends AppCompatActivity {
     //DialogFragment that displays when the game is over
     public static class GameOverFragment extends DialogFragment {
         @Override
-        public Dialog onCreateDialog(@NonNull Bundle savedInstanceState) {
+        @NonNull public Dialog onCreateDialog(Bundle savedInstanceState) {
             String title = "Game Over!";
             String message = "You counted %d cards in %d seconds. Would you like to try again?";
             if(success){

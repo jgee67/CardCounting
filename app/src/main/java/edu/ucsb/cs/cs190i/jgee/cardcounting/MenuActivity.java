@@ -138,7 +138,7 @@ public class MenuActivity extends AppCompatActivity {
     //DialogFragment that displays user stats
     public static class StatsFragment extends DialogFragment {
         @Override
-        public Dialog onCreateDialog(@NonNull Bundle savedInstanceState) {
+        @NonNull public Dialog onCreateDialog(Bundle savedInstanceState) {
             String title = "Stats";
             float avg = (float) totalCardsCounted / (float) totalTime;
             if(totalCardsCounted == 0) avg = 0;
@@ -165,7 +165,7 @@ public class MenuActivity extends AppCompatActivity {
     //DialogFragment that displays user stats
     public static class ConfirmationFragment extends DialogFragment {
         @Override
-        public Dialog onCreateDialog(@NonNull Bundle savedInstanceState) {
+        @NonNull public Dialog onCreateDialog(Bundle savedInstanceState) {
             String title = "Are you sure?";
             String message = "This will permanently reset your stats.";
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
