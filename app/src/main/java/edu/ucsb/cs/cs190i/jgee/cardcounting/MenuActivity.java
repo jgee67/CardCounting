@@ -164,7 +164,7 @@ public class MenuActivity extends AppCompatActivity {
         @Override
         public Dialog onCreateDialog(@NonNull Bundle savedInstanceState) {
             String title = "Are you sure?";
-            String message = "This will permanently reset your stats";
+            String message = "This will permanently reset your stats.";
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
             builder.setTitle(title)
                     .setMessage(message)
@@ -177,7 +177,9 @@ public class MenuActivity extends AppCompatActivity {
                     })
                     .setNegativeButton("No", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
-                            //close dialog
+                            StatsFragment stats = new StatsFragment();
+                            stats.setCancelable(false);
+                            stats.show(fragManager, "stats");
                         }
                     });
             return builder.create();
