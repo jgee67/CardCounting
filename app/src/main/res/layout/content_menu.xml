@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,26 +8,68 @@
     tools:context="edu.ucsb.cs.cs190i.jgee.cardcounting.MenuActivity"
     tools:showIn="@layout/activity_menu"
     android:orientation="vertical"
-    android:gravity="center">
+    android:background="@drawable/main_menu_bg">
 
-    <Button
+    <LinearLayout
+        android:orientation="horizontal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Start"
-        android:id="@+id/start"
-        android:onClick="menuPress"/>
+        android:padding="@dimen/button_padding"
+        android:id="@+id/bg1"
+        android:layout_centerHorizontal="true"
+        android:layout_above="@+id/bg2">
+        <Button
+            android:layout_width="@dimen/button_width"
+            android:layout_height="@dimen/button_height"
+            android:text="Start"
+            android:textSize="20sp"
+            android:textColor="@color/colorFont"
+            android:typeface="serif"
+            android:id="@+id/start"
+            android:onClick="menuPress"
+            android:background="@drawable/button_custom" />
 
-    <Button
+        <Button
+            android:layout_width="@dimen/button_width"
+            android:layout_height="@dimen/button_height"
+            android:text="Stats"
+            android:textSize="20sp"
+            android:textColor="@color/colorFont"
+            android:layout_marginLeft="@dimen/button_padding"
+            android:id="@+id/stats"
+            android:onClick="menuPress"
+            android:background="@drawable/button_custom" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Stats"
-        android:id="@+id/stats"
-        android:onClick="menuPress"/>
-
+        android:id="@+id/bg2"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="100dp">
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/button_width"
+        android:layout_height="@dimen/button_height"
         android:text="Options"
+        android:textSize="20sp"
+        android:textColor="@color/colorFont"
         android:id="@+id/options"
-        android:onClick="menuPress"/>
-</LinearLayout>
+        android:onClick="menuPress"
+        android:background="@drawable/button_custom" />
+
+    <Button
+        android:layout_width="@dimen/button_width"
+        android:layout_height="@dimen/button_height"
+        android:text="Help"
+        android:textSize="20sp"
+        android:textColor="@color/colorFont"
+        android:layout_marginLeft="@dimen/button_padding"
+        android:id="@+id/help"
+        android:onClick="menuPress"
+        android:background="@drawable/button_custom" />
+    </LinearLayout>
+
+</RelativeLayout>

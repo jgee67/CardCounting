@@ -12,6 +12,7 @@
     tools:context="edu.ucsb.cs.cs190i.jgee.cardcounting.OptionsActivity"
     tools:showIn="@layout/activity_options"
     android:orientation="vertical"
+    android:background="@drawable/background"
     android:gravity="center_horizontal">
 
     <TextView

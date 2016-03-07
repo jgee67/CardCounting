@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/scrollView"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        android:orientation="vertical"
+        android:background="@drawable/background"
+        tools:context="edu.ucsb.cs.cs190i.jgee.cardcounting.HelpActivity">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="How to Count Cards"
+            android:textColor="@color/colorAccent"
+            android:gravity="center"
+            android:textSize="40sp"
+            android:id="@+id/help_title" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Each card is given a point value as follows."
+            android:textColor="@color/colorFont"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:id="@+id/help_inst1"/>
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/imageView1"
+                android:src="@drawable/count_plus_one"/>'
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text=" +1"
+                android:textSize="100sp"
+                android:textColor="@color/colorFont"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:id="@+id/p1"/>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/imageView2"
+                android:src="@drawable/count_plus_zero"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text=" 0"
+                android:textSize="100sp"
+                android:textColor="@color/colorFont"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:id="@+id/z"/>
+
+        </LinearLayout>
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/imageView"
+                android:src="@drawable/count_minus_one"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text=" -1"
+                android:textSize="100sp"
+                android:textColor="@color/colorFont"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:id="@+id/m1"/>
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="The Running count is a value that determines whether your deck has more high cards or lo cards."
+            android:textColor="@color/colorFont"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:id="@+id/help_inst2"
+            android:layout_gravity="center_horizontal" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Starting at 0, for every card revealed, determine if it: a)	+1 to the running count b)	-1 to the running count  c)	+0 does not change the running count "
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@color/colorFont"
+            android:id="@+id/help_inst3"
+            android:contextClickable="false"
+            android:elegantTextHeight="false" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="At any point of the game, if the running count is positive, it means that there are more high cards than low cards. If the running count is negative then there are more low cards than high cards."
+            android:textColor="@color/colorFont"
+            android:id="@+id/help_inst4"
+            android:layout_gravity="center_horizontal" />
+    </LinearLayout>
+</ScrollView>

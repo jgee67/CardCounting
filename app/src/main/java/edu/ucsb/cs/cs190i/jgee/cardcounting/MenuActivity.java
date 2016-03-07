@@ -1,13 +1,16 @@
 package edu.ucsb.cs.cs190i.jgee.cardcounting;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 
 public class MenuActivity extends AppCompatActivity {
     private static final String LOG = "MENU_LOG";
@@ -37,6 +40,14 @@ public class MenuActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle(R.string.app_name);
         setSupportActionBar(toolbar);
+
+        View decorView = getWindow().getDecorView();
+        int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN;
+        decorView.setSystemUiVisibility(uiOptions);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.hide();
+
+        setButtonFont();
 
         Intent intent = getIntent();
         timePerCard = intent.getIntExtra(KEY_TIME_PER_CARD, 5);
@@ -86,6 +97,9 @@ public class MenuActivity extends AppCompatActivity {
             case R.id.options:
                 intent = new Intent(this, OptionsActivity.class);
                 break;
+            case R.id.help:
+                intent = new Intent(this, HelpActivity.class);
+                break;
             default:
                 intent = new Intent(this, CountingActivity.class);
                 break;
@@ -109,5 +123,17 @@ public class MenuActivity extends AppCompatActivity {
         Log.v(LOG, "isEndless: " + isEndlessMode);
         Log.v(LOG, "isAcualCnt: " + isActualCountMode);
         Log.v(LOG, "isRandBtns: " + isRandomizeButtonsMode);
+    }
+
+    public void setButtonFont() {
+        Button start_button = (Button)findViewById(R.id.start);
+        Button stats_button = (Button)findViewById(R.id.stats);
+        Button options_button = (Button)findViewById(R.id.options);
+        Button help_button = (Button)findViewById(R.id.help);
+        Typeface font = Typeface.createFromAsset(getAssets(), "fonts/Castellar.ttf");
+        start_button.setTypeface(font);
+        stats_button.setTypeface(font);
+        options_button.setTypeface(font);
+        help_button.setTypeface(font);
     }
 }
