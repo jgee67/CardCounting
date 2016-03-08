@@ -4,6 +4,17 @@
     <dimen name="activity_vertical_margin">20dp</dimen>
     <dimen name="button_height">90dp</dimen>
     <dimen name="button_width">250dp</dimen>
-    <dimen name="button_padding">5dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
+
+    <dimen name="button_padding">5dp</dimen>
+    <dimen name="paragraph_padding">10dp</dimen>
+
+
+    <!-- Font sizes. -->
+    <dimen name="title_font">50sp</dimen>
+    <dimen name="large_font">30sp</dimen>
+    <dimen name="body_font">30sp</dimen>
+    <dimen name="menu_button_font">45sp</dimen>
+    <dimen name="help_count_val_font">80sp</dimen>
+
 </resources>

@@ -3,12 +3,14 @@ package edu.ucsb.cs.cs190i.jgee.cardcounting;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -68,6 +70,15 @@ public class CountingActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle(R.string.app_name);
         setSupportActionBar(toolbar);
+
+        // Hide action bar and status bar.
+        View decorView = getWindow().getDecorView();
+        int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN;
+        decorView.setSystemUiVisibility(uiOptions);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.hide();
+
+        setFont();
 
         Intent intent = getIntent();
         timePerCard = intent.getIntExtra(MenuActivity.KEY_TIME_PER_CARD, 5);
@@ -449,5 +460,27 @@ public class CountingActivity extends AppCompatActivity {
         chron.stop();
         super.onDestroy();
     }
+
+    public void setFont() {
+        ArrayList<TextView> inst = new ArrayList<TextView>();
+        inst.add((TextView)findViewById(R.id.time_header));
+        inst.add((TextView)findViewById(R.id.time));
+        inst.add( (TextView)findViewById(R.id.cards_counted_header));
+        inst.add( (TextView)findViewById(R.id.cards_counted));
+        inst.add( (TextView)findViewById(R.id.count_header));
+        inst.add( (TextView)findViewById(R.id.count));
+        inst.add( (TextView)findViewById(R.id.prompt));
+
+        Typeface font = Typeface.createFromAsset(getAssets(), "fonts/Castellar.ttf");
+        //inst.get(0).setTypeface(font);
+
+        Typeface font1 = Typeface.createFromAsset(getAssets(), "fonts/BASKVILL.TTF");
+        for(int i = 0; i < inst.size(); i++) {
+            inst.get(i).setTypeface(font);
+        }
+
+        inst.get(inst.size()-1).setTypeface(font1);
+    }
+
 }
 

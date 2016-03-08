@@ -1,7 +1,9 @@
 package edu.ucsb.cs.cs190i.jgee.cardcounting;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -12,6 +14,8 @@ import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.content.SharedPreferences;
+
+import java.util.ArrayList;
 
 public class OptionsActivity extends AppCompatActivity {
     private static final String LOG = "OPTIONS_LOG";
@@ -46,6 +50,15 @@ public class OptionsActivity extends AppCompatActivity {
         toolbar.setTitle(R.string.app_name);
         setSupportActionBar(toolbar);
 
+        // Hide action bar and status bar.
+        View decorView = getWindow().getDecorView();
+        int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN;
+        decorView.setSystemUiVisibility(uiOptions);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.hide();
+
+        setFont();
+
         Intent intent = getIntent();
         timePerCard = intent.getIntExtra(MenuActivity.KEY_TIME_PER_CARD, 5);
         numDecks = intent.getIntExtra(MenuActivity.KEY_NUM_DECKS, 1);
@@ -64,9 +77,9 @@ public class OptionsActivity extends AppCompatActivity {
         random_buttons_cb = (CheckBox) findViewById(R.id.random_buttons_cb);
 
 
-        View div = findViewById(R.id.div);
-        div.setBackgroundColor(time_option_tv.getTextColors().getDefaultColor());
-        div.setAlpha((float) 0.5);
+//        View div = findViewById(R.id.div);
+//        div.setBackgroundColor(time_option_tv.getTextColors().getDefaultColor());
+//        div.setAlpha((float) 0.5);
 
         initTimePicker();
         initDeckPicker();
@@ -198,5 +211,31 @@ public class OptionsActivity extends AppCompatActivity {
         Log.v(LOG, "isEndless: " + isEndlessMode);
         Log.v(LOG, "isAcualCnt: " + isActualCountMode);
         Log.v(LOG, "isRandBtns: " + isRandomizeButtonsMode);
+    }
+
+    // Set the font for the views in this activity
+    private void setFont() {
+        ArrayList<TextView> inst = new ArrayList<TextView>();
+        inst.add((TextView)findViewById(R.id.options_title));
+        inst.add((TextView)findViewById(R.id.time_option_tv));
+        inst.add( (TextView)findViewById(R.id.deck_option_tv));
+
+        ArrayList<CheckBox> cb_list = new ArrayList<CheckBox>();
+        cb_list.add( (CheckBox)findViewById(R.id.actual_count_cb));
+        cb_list.add((CheckBox) findViewById(R.id.random_buttons_cb));
+        cb_list.add((CheckBox) findViewById(R.id.timer_off_cb));
+        cb_list.add((CheckBox) findViewById(R.id.endless_mode_cb));
+
+        Typeface font = Typeface.createFromAsset(getAssets(), "fonts/Castellar.ttf");
+        inst.get(0).setTypeface(font);
+
+        Typeface font1 = Typeface.createFromAsset(getAssets(), "fonts/BASKVILL.TTF");
+        for(int i = 1; i < inst.size(); i++) {
+            inst.get(i).setTypeface(font1);
+        }
+
+        for(int i = 0; i < cb_list.size(); i++) {
+            cb_list.get(i).setTypeface(font1);
+        }
     }
 }

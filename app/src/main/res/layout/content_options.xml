@@ -18,15 +18,11 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/option_tv"
-        android:textSize="40sp"
-        android:layout_gravity="center_horizontal"/>
-
-    <View
-        android:layout_width="150dp"
-        android:layout_height="2dp"
-        android:id="@+id/div"/>
-
+        android:text="@string/options_title"
+        android:textColor="@color/colorAccent"
+        android:textSize="@dimen/title_font"
+        android:layout_gravity="center_horizontal"
+        android:id="@+id/options_title"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -40,7 +36,8 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="@string/time_option_tv"
-            android:textSize="20sp"
+            android:textColor="@color/colorFont"
+            android:textSize="@dimen/body_font"
             android:id="@+id/time_option_tv" />
 
         <NumberPicker
@@ -54,6 +51,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/timer_off_cb"
+            android:textColor="@color/colorFont"
+            android:textSize="@dimen/body_font"
             android:id="@+id/timer_off_cb"
             android:checked="false"/>
 
@@ -71,7 +70,8 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="@string/deck_option_tv"
-            android:textSize="20sp"
+            android:textColor="@color/colorFont"
+            android:textSize="@dimen/body_font"
             android:id="@+id/deck_option_tv"/>
 
         <NumberPicker
@@ -85,6 +85,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/endless_mode_cb"
+            android:textColor="@color/colorFont"
+            android:textSize="@dimen/body_font"
             android:id="@+id/endless_mode_cb"
             android:checked="false" />
 
@@ -94,6 +96,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/actual_count_cb"
+        android:textColor="@color/colorFont"
+        android:textSize="@dimen/body_font"
         android:id="@+id/actual_count_cb"
         android:layout_gravity="center_horizontal" />
 
@@ -101,6 +105,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/random_buttons_cb"
+        android:textColor="@color/colorFont"
+        android:textSize="@dimen/body_font"
         android:id="@+id/random_buttons_cb"
         android:layout_gravity="center_horizontal" />
 
