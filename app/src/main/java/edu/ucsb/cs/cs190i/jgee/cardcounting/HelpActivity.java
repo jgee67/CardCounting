@@ -1,10 +1,8 @@
 package edu.ucsb.cs.cs190i.jgee.cardcounting;
 
 import android.graphics.Typeface;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -16,13 +14,6 @@ public class HelpActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_help);
         setFont();
-
-        // Hide action bar and status bar.
-        View decorView = getWindow().getDecorView();
-        int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN;
-        decorView.setSystemUiVisibility(uiOptions);
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.hide();
     }
 
     public void setFont() {

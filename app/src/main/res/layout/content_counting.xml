@@ -22,14 +22,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/time_header"
-            android:textColor="@color/colorAccent"
-            android:textSize="@dimen/large_font"
+            android:textColor="@color/header"
+            android:textSize="@dimen/header_font"
             android:id="@+id/time_header"
             android:visibility="invisible"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/colorFont"
+            android:textColor="@color/bodytext"
             android:textSize="@dimen/large_font"
             android:id="@+id/time"
             android:visibility="invisible"/>
@@ -45,14 +45,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/cards_counted_header"
-            android:textColor="@color/colorAccent"
-            android:textSize="@dimen/large_font"
+            android:textColor="@color/header"
+            android:textSize="@dimen/header_font"
             android:id="@+id/cards_counted_header"
             android:visibility="invisible"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/colorFont"
+            android:textColor="@color/bodytext"
             android:textSize="@dimen/large_font"
             android:id="@+id/cards_counted"
             android:visibility="invisible"/>
@@ -68,14 +68,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/count_header"
-            android:textColor="@color/colorAccent"
-            android:textSize="@dimen/large_font"
+            android:textColor="@color/header"
+            android:textSize="@dimen/header_font"
             android:id="@+id/count_header"
             android:visibility="invisible"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/colorFont"
+            android:textColor="@color/bodytext"
             android:textSize="@dimen/large_font"
             android:id="@+id/count"
             android:visibility="invisible"/>
@@ -85,7 +85,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/start_prompt"
-        android:textColor="@color/colorFont"
+        android:textColor="@color/bodytext"
         android:textSize="40sp"
         android:padding="20dp"
         android:id="@+id/prompt"
@@ -103,7 +103,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginTop="50dp">
+        android:layout_marginTop="20dp">
 
         <RelativeLayout
             android:layout_width="0dp"
@@ -112,10 +112,13 @@
             android:gravity="center">
 
             <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="@dimen/circle_button_dimen"
+                android:layout_height="@dimen/circle_button_dimen"
+                android:textSize="@dimen/circle_button_font"
+                android:textColor="@color/bodytext"
                 android:id="@+id/left_button"
-                android:visibility="invisible"/>
+                android:visibility="invisible"
+                android:background="@drawable/button_chip"/>
         </RelativeLayout>
 
         <RelativeLayout
@@ -125,10 +128,13 @@
             android:gravity="center">
 
             <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="@dimen/circle_button_dimen"
+                android:layout_height="@dimen/circle_button_dimen"
                 android:id="@+id/middle_button"
-                android:visibility="invisible"/>
+                android:textSize="@dimen/circle_button_font"
+                android:textColor="@color/bodytext"
+                android:visibility="invisible"
+                android:background="@drawable/button_chip"/>
         </RelativeLayout>
 
         <RelativeLayout
@@ -138,10 +144,13 @@
             android:gravity="center">
 
             <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="@dimen/circle_button_dimen"
+                android:layout_height="@dimen/circle_button_dimen"
                 android:id="@+id/right_button"
-                android:visibility="invisible"/>
+                android:textSize="@dimen/circle_button_font"
+                android:textColor="@color/bodytext"
+                android:visibility="invisible"
+                android:background="@drawable/button_chip" />
         </RelativeLayout>
     </LinearLayout>
 

@@ -23,22 +23,22 @@
             android:layout_height="@dimen/button_height"
             android:text="Start"
             android:textSize="@dimen/menu_button_font"
-            android:textColor="@color/colorFont"
+            android:textColor="@color/bodytext"
             android:typeface="serif"
             android:id="@+id/start"
             android:onClick="menuPress"
-            android:background="@drawable/button_custom" />
+            android:background="@drawable/button_rectangle" />
 
         <Button
             android:layout_width="@dimen/button_width"
             android:layout_height="@dimen/button_height"
             android:text="Stats"
             android:textSize="@dimen/menu_button_font"
-            android:textColor="@color/colorFont"
+            android:textColor="@color/bodytext"
             android:layout_marginLeft="@dimen/button_padding"
             android:id="@+id/stats"
             android:onClick="menuPress"
-            android:background="@drawable/button_custom" />
+            android:background="@drawable/button_rectangle" />
 
     </LinearLayout>
 
@@ -55,21 +55,21 @@
         android:layout_height="@dimen/button_height"
         android:text="Options"
         android:textSize="@dimen/menu_button_font"
-        android:textColor="@color/colorFont"
+        android:textColor="@color/bodytext"
         android:id="@+id/options"
         android:onClick="menuPress"
-        android:background="@drawable/button_custom" />
+        android:background="@drawable/button_rectangle" />
 
     <Button
         android:layout_width="@dimen/button_width"
         android:layout_height="@dimen/button_height"
         android:text="Help"
         android:textSize="@dimen/menu_button_font"
-        android:textColor="@color/colorFont"
+        android:textColor="@color/bodytext"
         android:layout_marginLeft="@dimen/button_padding"
         android:id="@+id/help"
         android:onClick="menuPress"
-        android:background="@drawable/button_custom" />
+        android:background="@drawable/button_rectangle" />
     </LinearLayout>
 
 </RelativeLayout>

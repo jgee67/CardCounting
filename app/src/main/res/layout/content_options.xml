@@ -29,7 +29,8 @@
         android:id="@+id/timer_options_body"
         android:orientation="horizontal"
         android:gravity="center"
-        android:layout_centerHorizontal="true">
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="70dp">
 
         <TextView
             android:layout_width="wrap_content"
@@ -139,21 +140,29 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true">
+        android:layout_centerHorizontal="true"
+        android:paddingBottom="20dp">
 
         <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/options_button_width"
+            android:layout_height="@dimen/options_button_height"
+            android:textColor="@color/button"
+            android:textSize="@dimen/option_button_font"
             android:text="@string/reset_btn"
             android:id="@+id/reset_btn"
-            android:onClick="onResetClick" />
+            android:onClick="onResetClick"
+            android:background="@drawable/button_rectangle" />
 
         <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/options_button_width"
+            android:layout_height="@dimen/options_button_height"
+            android:textColor="@color/button"
+            android:textSize="@dimen/option_button_font"
             android:text="@string/save_btn"
             android:id="@+id/save_btn"
-            android:onClick="onSaveClick" />
+            android:onClick="onSaveClick"
+            android:background="@drawable/button_rectangle"
+            android:layout_marginLeft="@dimen/button_padding"/>
     </LinearLayout>
 
 </RelativeLayout>

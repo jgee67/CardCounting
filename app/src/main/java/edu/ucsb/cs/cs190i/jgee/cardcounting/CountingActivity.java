@@ -459,19 +459,20 @@ public class CountingActivity extends AppCompatActivity {
         inst.add((TextView)findViewById(R.id.time));
         inst.add( (TextView)findViewById(R.id.cards_counted_header));
         inst.add( (TextView)findViewById(R.id.cards_counted));
-        inst.add( (TextView)findViewById(R.id.count_header));
+        inst.add((TextView) findViewById(R.id.count_header));
         inst.add( (TextView)findViewById(R.id.count));
-        inst.add( (TextView)findViewById(R.id.prompt));
+        inst.add( (TextView)findViewById(R.id.left_button));
+        inst.add( (TextView)findViewById(R.id.middle_button));
+        inst.add( (TextView)findViewById(R.id.right_button));
 
         Typeface font = Typeface.createFromAsset(getAssets(), "fonts/Castellar.ttf");
-        //inst.get(0).setTypeface(font);
-
-        Typeface font1 = Typeface.createFromAsset(getAssets(), "fonts/BASKVILL.TTF");
         for(int i = 0; i < inst.size(); i++) {
             inst.get(i).setTypeface(font);
         }
 
-        inst.get(inst.size()-1).setTypeface(font1);
+        Typeface font1 = Typeface.createFromAsset(getAssets(), "fonts/BASKVILL.TTF");
+        TextView prmpt = (TextView) findViewById(R.id.prompt);
+        prmpt.setTypeface(font1);
     }
 
 }

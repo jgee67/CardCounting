@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.NumberPicker;
@@ -43,17 +44,6 @@ public class OptionsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_options);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle(R.string.app_name);
-        setSupportActionBar(toolbar);
-
-        // Hide action bar and status bar.
-        View decorView = getWindow().getDecorView();
-        int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN;
-        decorView.setSystemUiVisibility(uiOptions);
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.hide();
-
         setFont();
 
         Intent intent = getIntent();
@@ -70,11 +60,6 @@ public class OptionsActivity extends AppCompatActivity {
         deck_option_tv = (TextView) findViewById(R.id.deck_option_tv);
         actual_count_cb = (CheckBox) findViewById(R.id.actual_count_cb);
         random_buttons_cb = (CheckBox) findViewById(R.id.random_buttons_cb);
-
-
-//        View div = findViewById(R.id.div);
-//        div.setBackgroundColor(time_option_tv.getTextColors().getDefaultColor());
-//        div.setAlpha((float) 0.5);
 
         initTimePicker();
         initDeckPicker();
@@ -214,7 +199,7 @@ public class OptionsActivity extends AppCompatActivity {
         inst.add( (TextView)findViewById(R.id.deck_option_tv));
 
         ArrayList<CheckBox> cb_list = new ArrayList<CheckBox>();
-        cb_list.add( (CheckBox)findViewById(R.id.actual_count_cb));
+        cb_list.add((CheckBox) findViewById(R.id.actual_count_cb));
         cb_list.add((CheckBox) findViewById(R.id.random_buttons_cb));
         cb_list.add((CheckBox) findViewById(R.id.timer_off_cb));
         cb_list.add((CheckBox) findViewById(R.id.endless_mode_cb));
@@ -222,6 +207,13 @@ public class OptionsActivity extends AppCompatActivity {
         Typeface font = Typeface.createFromAsset(getAssets(), "fonts/Castellar.ttf");
         inst.get(0).setTypeface(font);
 
+        TextView difficulty_tv = (TextView) findViewById(R.id.difficulty_options_header);
+        difficulty_tv.setTypeface(font);
+
+        Button reset = (Button) findViewById(R.id.reset_btn);
+        Button save = (Button) findViewById(R.id.save_btn);
+        reset.setTypeface(font);
+        save.setTypeface(font);
         Typeface font1 = Typeface.createFromAsset(getAssets(), "fonts/BASKVILL.TTF");
         for(int i = 1; i < inst.size(); i++) {
             inst.get(i).setTypeface(font1);
