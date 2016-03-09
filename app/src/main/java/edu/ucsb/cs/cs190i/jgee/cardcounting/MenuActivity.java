@@ -1,8 +1,15 @@
 package edu.ucsb.cs.cs190i.jgee.cardcounting;
 
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Typeface;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
@@ -23,6 +30,8 @@ public class MenuActivity extends AppCompatActivity {
     public static final String KEY_IS_RAND_BTNS = "KEY_IS_RAND_BTNS";
     public static final String KEY_TOTAL_CARDS = "KEY_TOTAL_CARDS";
     public static final String KEY_TOTAL_TIME = "KEY_TOTAL_TIME";
+    public static final String PREFS = "CardCounting_prefs";
+    private static FragmentManager fragManager;
 
     private static int timePerCard;
     private static int numDecks;
@@ -32,23 +41,15 @@ public class MenuActivity extends AppCompatActivity {
     private static boolean isActualCountMode;
     private static int totalCardsCounted;
     private static int totalTime;
+    private static SharedPreferences sp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle(R.string.app_name);
-        setSupportActionBar(toolbar);
-
-        // Hide action bar and status bar.
-        View decorView = getWindow().getDecorView();
-        int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN;
-        decorView.setSystemUiVisibility(uiOptions);
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.hide();
-
         setButtonFont();
+
+        fragManager = getSupportFragmentManager();
 
         Intent intent = getIntent();
         timePerCard = intent.getIntExtra(KEY_TIME_PER_CARD, 5);
@@ -57,8 +58,9 @@ public class MenuActivity extends AppCompatActivity {
         isEndlessMode = intent.getBooleanExtra(KEY_IS_ENDLESS, false);
         isActualCountMode = intent.getBooleanExtra(KEY_IS_ACTUAL_CNT, false);
         isRandomizeButtonsMode= intent.getBooleanExtra(KEY_IS_RAND_BTNS, false);
-        totalCardsCounted = intent.getIntExtra(KEY_TOTAL_CARDS, 0);
-        totalTime = intent.getIntExtra(KEY_TOTAL_TIME, 0);
+        sp = this.getSharedPreferences(PREFS, MODE_PRIVATE);
+        totalCardsCounted = sp.getInt(KEY_TOTAL_CARDS, 0);
+        totalTime = sp.getInt(KEY_TOTAL_TIME, 0);
 
         printDebugLog();
     }
@@ -91,29 +93,40 @@ public class MenuActivity extends AppCompatActivity {
         switch(id){
             case R.id.start:
                 intent = new Intent(this, CountingActivity.class);
+                intent.putExtra(MenuActivity.KEY_TIME_PER_CARD, timePerCard);
+                intent.putExtra(MenuActivity.KEY_NUM_DECKS, numDecks);
+                intent.putExtra(MenuActivity.KEY_IS_TIMER_OFF, isTimerOffMode);
+                intent.putExtra(MenuActivity.KEY_IS_ACTUAL_CNT, isActualCountMode);
+                intent.putExtra(MenuActivity.KEY_IS_ENDLESS, isEndlessMode);
+                intent.putExtra(MenuActivity.KEY_IS_RAND_BTNS, isRandomizeButtonsMode);
+                intent.putExtra(MenuActivity.KEY_TOTAL_CARDS, totalCardsCounted);
+                intent.putExtra(MenuActivity.KEY_TOTAL_TIME, totalTime);
+                startActivity(intent);
                 break;
             case R.id.stats:
-                intent = new Intent(this, CountingActivity.class);
+                StatsFragment stats = new StatsFragment();
+                stats.setCancelable(false);
+                stats.show(fragManager, "stats");
                 break;
             case R.id.options:
                 intent = new Intent(this, OptionsActivity.class);
+                intent.putExtra(MenuActivity.KEY_TIME_PER_CARD, timePerCard);
+                intent.putExtra(MenuActivity.KEY_NUM_DECKS, numDecks);
+                intent.putExtra(MenuActivity.KEY_IS_TIMER_OFF, isTimerOffMode);
+                intent.putExtra(MenuActivity.KEY_IS_ACTUAL_CNT, isActualCountMode);
+                intent.putExtra(MenuActivity.KEY_IS_ENDLESS, isEndlessMode);
+                intent.putExtra(MenuActivity.KEY_IS_RAND_BTNS, isRandomizeButtonsMode);
+                intent.putExtra(MenuActivity.KEY_TOTAL_CARDS, totalCardsCounted);
+                intent.putExtra(MenuActivity.KEY_TOTAL_TIME, totalTime);
+                startActivity(intent);
                 break;
             case R.id.help:
                 intent = new Intent(this, HelpActivity.class);
+                startActivity(intent);
                 break;
             default:
-                intent = new Intent(this, CountingActivity.class);
                 break;
         }
-        intent.putExtra(MenuActivity.KEY_TIME_PER_CARD, timePerCard);
-        intent.putExtra(MenuActivity.KEY_NUM_DECKS, numDecks);
-        intent.putExtra(MenuActivity.KEY_IS_TIMER_OFF, isTimerOffMode);
-        intent.putExtra(MenuActivity.KEY_IS_ACTUAL_CNT, isActualCountMode);
-        intent.putExtra(MenuActivity.KEY_IS_ENDLESS, isEndlessMode);
-        intent.putExtra(MenuActivity.KEY_IS_RAND_BTNS, isRandomizeButtonsMode);
-        intent.putExtra(MenuActivity.KEY_TOTAL_CARDS, totalCardsCounted);
-        intent.putExtra(MenuActivity.KEY_TOTAL_TIME, totalTime);
-        startActivity(intent);
     }
 
     // Prints out the values stored in the option variables
@@ -127,14 +140,74 @@ public class MenuActivity extends AppCompatActivity {
     }
 
     public void setButtonFont() {
-        Button start_button = (Button)findViewById(R.id.start);
-        Button stats_button = (Button)findViewById(R.id.stats);
-        Button options_button = (Button)findViewById(R.id.options);
-        Button help_button = (Button)findViewById(R.id.help);
+        Button start_button = (Button) findViewById(R.id.start);
+        Button stats_button = (Button) findViewById(R.id.stats);
+        Button options_button = (Button) findViewById(R.id.options);
+        Button help_button = (Button) findViewById(R.id.help);
         Typeface font = Typeface.createFromAsset(getAssets(), "fonts/Castellar.ttf");
         start_button.setTypeface(font);
+
         stats_button.setTypeface(font);
         options_button.setTypeface(font);
         help_button.setTypeface(font);
+    }
+    //DialogFragment that displays user stats
+    public static class StatsFragment extends DialogFragment {
+        @Override
+        @NonNull public Dialog onCreateDialog(Bundle savedInstanceState) {
+            String title = "Stats";
+            float avg = (float) totalCardsCounted / (float) totalTime;
+            if(totalCardsCounted == 0) avg = 0;
+            String message = "Cards Counted: %d\n\nTime Played: %d seconds\n\nAverage Cards Counted per Second: %.2f";
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            builder.setTitle(title)
+                    .setMessage(String.format(message, totalCardsCounted, totalTime, avg))
+                    .setPositiveButton("Reset", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            ConfirmationFragment confirm = new ConfirmationFragment();
+                            confirm.setCancelable(false);
+                            confirm.show(fragManager, "confirm");
+                        }
+                    })
+                    .setNegativeButton("Close", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            //close dialog
+                        }
+                    });
+            return builder.create();
+        }
+    }
+
+    //DialogFragment that displays user stats
+    public static class ConfirmationFragment extends DialogFragment {
+        @Override
+        @NonNull public Dialog onCreateDialog(Bundle savedInstanceState) {
+            String title = "Are you sure?";
+            String message = "This will permanently reset your stats.";
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            builder.setTitle(title)
+                    .setMessage(message)
+                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            totalCardsCounted = 0;
+                            totalTime = 0;
+                            SharedPreferences.Editor editor = sp.edit();
+                            editor.putInt(KEY_TOTAL_CARDS, totalCardsCounted);
+                            editor.putInt(KEY_TOTAL_TIME, totalTime);
+                            editor.apply();
+                            StatsFragment stats = new StatsFragment();
+                            stats.setCancelable(false);
+                            stats.show(fragManager, "stats");
+                        }
+                    })
+                    .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            StatsFragment stats = new StatsFragment();
+                            stats.setCancelable(false);
+                            stats.show(fragManager, "stats");
+                        }
+                    });
+            return builder.create();
+        }
     }
 }

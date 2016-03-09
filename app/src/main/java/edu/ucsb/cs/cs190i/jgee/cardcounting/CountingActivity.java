@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Typeface;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.SystemClock;
@@ -60,25 +61,16 @@ public class CountingActivity extends AppCompatActivity {
     private static boolean isEndlessMode;
     private static boolean isRandomizeButtonsMode;
     private static boolean isActualCountMode;
-    private static int totalCardsCounted;
-    private static int totalTime;
+    private static SharedPreferences sp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_counting);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle(R.string.app_name);
-        setSupportActionBar(toolbar);
-
-        // Hide action bar and status bar.
-        View decorView = getWindow().getDecorView();
-        int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN;
-        decorView.setSystemUiVisibility(uiOptions);
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.hide();
 
         setFont();
+
+        sp = this.getSharedPreferences(MenuActivity.PREFS, MODE_PRIVATE);
 
         Intent intent = getIntent();
         timePerCard = intent.getIntExtra(MenuActivity.KEY_TIME_PER_CARD, 5);
@@ -87,8 +79,6 @@ public class CountingActivity extends AppCompatActivity {
         isEndlessMode = intent.getBooleanExtra(MenuActivity.KEY_IS_ENDLESS, false);
         isActualCountMode = intent.getBooleanExtra(MenuActivity.KEY_IS_ACTUAL_CNT, false);
         isRandomizeButtonsMode= intent.getBooleanExtra(MenuActivity.KEY_IS_RAND_BTNS, false);
-        totalCardsCounted = intent.getIntExtra(MenuActivity.KEY_TOTAL_CARDS, 0);
-        totalTime = intent.getIntExtra(MenuActivity.KEY_TOTAL_TIME, 0);
 
         prompt = (TextView) findViewById(R.id.prompt);
         time_header = (TextView) findViewById(R.id.time_header);
@@ -347,8 +337,12 @@ public class CountingActivity extends AppCompatActivity {
         countDownTimer.cancel();
         sessionTime = (int) Math.round((SystemClock.elapsedRealtime() - chron.getBase()) / 1000.0);
         chron.stop();
-        totalCardsCounted += currentCardsCounted;
-        totalTime += sessionTime;
+
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putInt(MenuActivity.KEY_TOTAL_CARDS, sp.getInt(MenuActivity.KEY_TOTAL_CARDS, 0) + currentCardsCounted);
+        editor.putInt(MenuActivity.KEY_TOTAL_TIME, sp.getInt(MenuActivity.KEY_TOTAL_TIME, 0) + sessionTime);
+        editor.apply();
+
         GameOverFragment gameOver = new GameOverFragment();
         gameOver.setCancelable(false);
         gameOver.show(fragManager, "gameover");
@@ -405,7 +399,7 @@ public class CountingActivity extends AppCompatActivity {
     //DialogFragment that displays when the game is over
     public static class GameOverFragment extends DialogFragment {
         @Override
-        public Dialog onCreateDialog(@NonNull Bundle savedInstanceState) {
+        @NonNull public Dialog onCreateDialog(Bundle savedInstanceState) {
             String title = "Game Over!";
             String message = "You counted %d cards in %d seconds. Would you like to try again?";
             if(success){
@@ -430,8 +424,6 @@ public class CountingActivity extends AppCompatActivity {
                             intent.putExtra(MenuActivity.KEY_IS_ACTUAL_CNT, isActualCountMode);
                             intent.putExtra(MenuActivity.KEY_IS_ENDLESS, isEndlessMode);
                             intent.putExtra(MenuActivity.KEY_IS_RAND_BTNS, isRandomizeButtonsMode);
-                            intent.putExtra(MenuActivity.KEY_TOTAL_CARDS, totalCardsCounted);
-                            intent.putExtra(MenuActivity.KEY_TOTAL_TIME, totalTime);
                             startActivity(intent);
                         }
                     });

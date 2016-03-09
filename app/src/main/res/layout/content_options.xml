@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -11,33 +11,33 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="edu.ucsb.cs.cs190i.jgee.cardcounting.OptionsActivity"
     tools:showIn="@layout/activity_options"
-    android:orientation="vertical"
-    android:background="@drawable/background"
-    android:gravity="center_horizontal">
+    android:background="@drawable/background">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/options_title"
-        android:textColor="@color/colorAccent"
         android:textSize="@dimen/title_font"
-        android:layout_gravity="center_horizontal"
-        android:id="@+id/options_title"/>
+        android:textColor="@color/title"
+        android:id="@+id/options_title"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/timer_options_body"
         android:orientation="horizontal"
-        android:gravity="center">
+        android:gravity="center"
+        android:layout_centerHorizontal="true">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="@string/time_option_tv"
-            android:textColor="@color/colorFont"
-            android:textSize="@dimen/body_font"
+            android:textSize="@dimen/large_font"
+            android:textColor="@color/bodytext"
             android:id="@+id/time_option_tv" />
 
         <NumberPicker
@@ -51,8 +51,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/timer_off_cb"
-            android:textColor="@color/colorFont"
-            android:textSize="@dimen/body_font"
+            android:textSize="@dimen/large_font"
+            android:textColor="@color/bodytext"
             android:id="@+id/timer_off_cb"
             android:checked="false"/>
 
@@ -63,15 +63,17 @@
         android:layout_height="wrap_content"
         android:id="@+id/card_options_body"
         android:orientation="horizontal"
-        android:gravity="center">
+        android:gravity="center"
+        android:layout_below="@id/timer_options_body"
+        android:layout_centerHorizontal="true">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="@string/deck_option_tv"
-            android:textColor="@color/colorFont"
-            android:textSize="@dimen/body_font"
+            android:textSize="@dimen/large_font"
+            android:textColor="@color/bodytext"
             android:id="@+id/deck_option_tv"/>
 
         <NumberPicker
@@ -85,36 +87,59 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/endless_mode_cb"
-            android:textColor="@color/colorFont"
-            android:textSize="@dimen/body_font"
+            android:textSize="@dimen/large_font"
+            android:textColor="@color/bodytext"
             android:id="@+id/endless_mode_cb"
             android:checked="false" />
 
     </LinearLayout>
 
-    <CheckBox
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/actual_count_cb"
-        android:textColor="@color/colorFont"
-        android:textSize="@dimen/body_font"
-        android:id="@+id/actual_count_cb"
-        android:layout_gravity="center_horizontal" />
+        android:id="@+id/difficulty_options_header"
+        android:text="@string/difficulty_settings"
+        android:textSize="@dimen/header_font"
+        android:textColor="@color/header"
+        android:layout_below="@id/card_options_body"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"/>
 
-    <CheckBox
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/random_buttons_cb"
-        android:textColor="@color/colorFont"
-        android:textSize="@dimen/body_font"
-        android:id="@+id/random_buttons_cb"
-        android:layout_gravity="center_horizontal" />
+        android:id="@+id/difficulty_options_body"
+        android:orientation="vertical"
+        android:layout_below="@id/difficulty_options_header"
+        android:layout_centerHorizontal="true"
+        android:gravity="start"
+        android:layout_marginTop="20dp">
+
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/actual_count_cb"
+            android:textSize="@dimen/large_font"
+            android:textColor="@color/bodytext"
+            android:id="@+id/actual_count_cb"/>
+
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/random_buttons_cb"
+            android:textSize="@dimen/large_font"
+            android:textColor="@color/bodytext"
+            android:id="@+id/random_buttons_cb"/>
+    </LinearLayout>
+
 
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal">
+        android:layout_gravity="center_horizontal"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true">
 
         <Button
             android:layout_width="wrap_content"
@@ -131,4 +156,4 @@
             android:onClick="onSaveClick" />
     </LinearLayout>
 
-</LinearLayout>
+</RelativeLayout>
