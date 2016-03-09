@@ -1,6 +1,8 @@
 package edu.ucsb.cs.cs190i.jgee.cardcounting;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
@@ -11,10 +13,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 
 public class OptionsActivity extends AppCompatActivity {
@@ -81,6 +85,7 @@ public class OptionsActivity extends AppCompatActivity {
                 timePerCard = newVal;
             }
         });
+        setNumberPickerTextColor(time_picker, Color.WHITE);
     }
 
     private void initDeckPicker() {
@@ -96,6 +101,7 @@ public class OptionsActivity extends AppCompatActivity {
                 numDecks = newVal;
             }
         });
+        setNumberPickerTextColor(deck_picker, Color.WHITE);
     }
 
     // Set up listeners for the checkbox fields
@@ -222,5 +228,34 @@ public class OptionsActivity extends AppCompatActivity {
         for(int i = 0; i < cb_list.size(); i++) {
             cb_list.get(i).setTypeface(font1);
         }
+    }
+
+    public static boolean setNumberPickerTextColor(NumberPicker numberPicker, int color)
+    {
+        final int count = numberPicker.getChildCount();
+        for(int i = 0; i < count; i++){
+            View child = numberPicker.getChildAt(i);
+            if(child instanceof EditText){
+                try{
+                    Field selectorWheelPaintField = numberPicker.getClass()
+                            .getDeclaredField("mSelectorWheelPaint");
+                    selectorWheelPaintField.setAccessible(true);
+                    ((Paint)selectorWheelPaintField.get(numberPicker)).setColor(color);
+                    ((EditText)child).setTextColor(color);
+                    numberPicker.invalidate();
+                    return true;
+                }
+                catch(NoSuchFieldException e){
+//                    Log.w("setNumberPickerTextColor", e);
+                }
+                catch(IllegalAccessException e){
+//                    Log.w("setNumberPickerTextColor", e);
+                }
+                catch(IllegalArgumentException e){
+//                    Log.w("setNumberPickerTextColor", e);
+                }
+            }
+        }
+        return false;
     }
 }
