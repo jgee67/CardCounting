@@ -31,6 +31,13 @@ public class MenuActivity extends AppCompatActivity {
     public static final String KEY_TOTAL_CARDS = "KEY_TOTAL_CARDS";
     public static final String KEY_TOTAL_TIME = "KEY_TOTAL_TIME";
     public static final String PREFS = "CardCounting_prefs";
+    public static final int HILO = 0;
+    public static final int KO = 1;
+    public static final int RED_7 = 2;
+    public static final int HI_OPT_1 = 3;
+    public static final int HI_OPT_2 = 4;
+    public static final int OMEGA_2 = 5;
+    public static final int ZEN_COUNT = 6;
     private static FragmentManager fragManager;
 
     private static int timePerCard;
