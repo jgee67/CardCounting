@@ -26,11 +26,39 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:id="@+id/method_options_body"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="70dp"
+        android:layout_below="@id/options_title">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="@string/method_header"
+            android:textSize="@dimen/large_font"
+            android:textColor="@color/bodytext"
+            android:id="@+id/method_header" />
+
+        <Spinner
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/method_spinner"
+            android:layout_margin="0dp"
+            android:padding="0dp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:id="@+id/timer_options_body"
         android:orientation="horizontal"
         android:gravity="center"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="70dp">
+        android:layout_below="@id/method_options_body">
 
         <TextView
             android:layout_width="wrap_content"

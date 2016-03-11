@@ -10,16 +10,19 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.NumberPicker;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.List;
 
 public class OptionsActivity extends AppCompatActivity {
     private static final String LOG = "OPTIONS_LOG";
@@ -28,6 +31,8 @@ public class OptionsActivity extends AppCompatActivity {
     private static final int OPTION_MAX = 10;
     private static final int NUM_DECKS_DEFAULT = 1;
 
+    private static TextView method_header;
+    private static Spinner method_spinner;
     private static CheckBox timer_off_cb;
     private static TextView time_option_tv;
     private static CheckBox endless_mode_cb;
@@ -43,6 +48,7 @@ public class OptionsActivity extends AppCompatActivity {
     private static boolean isEndlessMode;
     private static boolean isRandomizeButtonsMode;
     private static boolean isActualCountMode;
+    private static List<String> methods = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +64,8 @@ public class OptionsActivity extends AppCompatActivity {
         isActualCountMode = intent.getBooleanExtra(MenuActivity.KEY_IS_ACTUAL_CNT, false);
         isRandomizeButtonsMode= intent.getBooleanExtra(MenuActivity.KEY_IS_RAND_BTNS, false);
 
+        method_header = (TextView) findViewById(R.id.method_header);
+        method_spinner = (Spinner) findViewById(R.id.method_spinner);
         timer_off_cb = (CheckBox) findViewById(R.id.timer_off_cb);
         time_option_tv = (TextView) findViewById(R.id.time_option_tv);
         endless_mode_cb = (CheckBox) findViewById(R.id.endless_mode_cb);
@@ -67,6 +75,7 @@ public class OptionsActivity extends AppCompatActivity {
 
         initTimePicker();
         initDeckPicker();
+        addSpinnerMethods();
 
         setupOnCheckChangeListeners();
         updateOptionsUI();
@@ -203,6 +212,7 @@ public class OptionsActivity extends AppCompatActivity {
         inst.add((TextView)findViewById(R.id.options_title));
         inst.add((TextView)findViewById(R.id.time_option_tv));
         inst.add( (TextView)findViewById(R.id.deck_option_tv));
+        inst.add( (TextView)findViewById(R.id.method_header));
 
         ArrayList<CheckBox> cb_list = new ArrayList<CheckBox>();
         cb_list.add((CheckBox) findViewById(R.id.actual_count_cb));
@@ -257,5 +267,18 @@ public class OptionsActivity extends AppCompatActivity {
             }
         }
         return false;
+    }
+
+    public void addSpinnerMethods() {
+        methods.add("Hi-Lo");
+        methods.add("Hi-Opt 1");
+        methods.add("Hi-Opt 2");
+        methods.add("Knock Out");
+        methods.add("Omega 2");
+        methods.add("Red 7");
+        methods.add("Zen Count");
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(this, R.layout.spinner_item, methods);
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        method_spinner.setAdapter(dataAdapter);
     }
 }

@@ -6,6 +6,7 @@
     <string name="title_activity_help">Help</string>
 
     <string name="options_title"><u>Options</u></string>
+    <string name="method_header">"Counting Method: "</string>
     <string name="timer_off_cb">Disable</string>
     <string name="time_option_tv">"Time per Card: "</string>
     <string name="deck_option_tv">"Number of Decks: "</string>
@@ -21,6 +22,7 @@
     <string name="disabled">Disabled</string>
     <string name="help_title"><u>How to Count Cards</u></string>
     <string name="difficulty_settings">Difficulty Settings:</string>
+
 
 
 </resources>
