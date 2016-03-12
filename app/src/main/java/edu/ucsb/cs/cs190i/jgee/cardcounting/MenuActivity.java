@@ -11,14 +11,12 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
 public class MenuActivity extends AppCompatActivity {
-    private static final String LOG = "MENU_LOG";
 
     public static final String KEY_TIME_PER_CARD = "KEY_TIME_PER_CARD";
     public static final String KEY_NUM_DECKS = "KEY_NUM_DECKS";
@@ -35,14 +33,6 @@ public class MenuActivity extends AppCompatActivity {
     public static final int KO = 2;
     public static final int RED_7 = 3;
     private static FragmentManager fragManager;
-
-    private static int timePerCard;
-    private static int numDecks;
-    private static boolean isTimerOffMode;
-    private static boolean isEndlessMode;
-    private static boolean isRandomizeButtonsMode;
-    private static boolean isActualCountMode;
-    private static int method;
     private static int totalCardsCounted;
     private static int totalTime;
     private static SharedPreferences sp;
@@ -54,20 +44,9 @@ public class MenuActivity extends AppCompatActivity {
         setButtonFont();
 
         fragManager = getSupportFragmentManager();
-
-        Intent intent = getIntent();
-        timePerCard = intent.getIntExtra(KEY_TIME_PER_CARD, 5);
-        numDecks = intent.getIntExtra(KEY_NUM_DECKS, 1);
-        isTimerOffMode = intent.getBooleanExtra(KEY_IS_TIMER_OFF, false);
-        isEndlessMode = intent.getBooleanExtra(KEY_IS_ENDLESS, false);
-        isActualCountMode = intent.getBooleanExtra(KEY_IS_ACTUAL_CNT, false);
-        isRandomizeButtonsMode= intent.getBooleanExtra(KEY_IS_RAND_BTNS, false);
-        method = intent.getIntExtra(KEY_METHOD, 0);
         sp = this.getSharedPreferences(PREFS, MODE_PRIVATE);
         totalCardsCounted = sp.getInt(KEY_TOTAL_CARDS, 0);
         totalTime = sp.getInt(KEY_TOTAL_TIME, 0);
-
-        printDebugLog();
     }
 
     @Override
@@ -98,13 +77,6 @@ public class MenuActivity extends AppCompatActivity {
         switch(id){
             case R.id.start:
                 intent = new Intent(this, CountingActivity.class);
-                intent.putExtra(KEY_TIME_PER_CARD, timePerCard);
-                intent.putExtra(KEY_NUM_DECKS, numDecks);
-                intent.putExtra(KEY_IS_TIMER_OFF, isTimerOffMode);
-                intent.putExtra(KEY_IS_ACTUAL_CNT, isActualCountMode);
-                intent.putExtra(KEY_IS_ENDLESS, isEndlessMode);
-                intent.putExtra(KEY_IS_RAND_BTNS, isRandomizeButtonsMode);
-                intent.putExtra(KEY_METHOD, method);
                 startActivity(intent);
                 break;
             case R.id.stats:
@@ -114,13 +86,6 @@ public class MenuActivity extends AppCompatActivity {
                 break;
             case R.id.options:
                 intent = new Intent(this, OptionsActivity.class);
-                intent.putExtra(KEY_TIME_PER_CARD, timePerCard);
-                intent.putExtra(KEY_NUM_DECKS, numDecks);
-                intent.putExtra(KEY_IS_TIMER_OFF, isTimerOffMode);
-                intent.putExtra(KEY_IS_ACTUAL_CNT, isActualCountMode);
-                intent.putExtra(KEY_IS_ENDLESS, isEndlessMode);
-                intent.putExtra(KEY_IS_RAND_BTNS, isRandomizeButtonsMode);
-                intent.putExtra(KEY_METHOD, method);
                 startActivity(intent);
                 break;
             case R.id.help:
@@ -130,16 +95,6 @@ public class MenuActivity extends AppCompatActivity {
             default:
                 break;
         }
-    }
-
-    // Prints out the values stored in the option variables
-    private void printDebugLog() {
-        Log.v(LOG, "tpc: " + timePerCard);
-        Log.v(LOG, "numDecks: " + numDecks);
-        Log.v(LOG, "isTimerOff: " + isTimerOffMode);
-        Log.v(LOG, "isEndless: " + isEndlessMode);
-        Log.v(LOG, "isAcualCnt: " + isActualCountMode);
-        Log.v(LOG, "isRandBtns: " + isRandomizeButtonsMode);
     }
 
     public void setButtonFont() {

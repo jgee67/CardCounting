@@ -80,14 +80,13 @@ public class CountingActivity extends AppCompatActivity {
 
         sp = this.getSharedPreferences(MenuActivity.PREFS, MODE_PRIVATE);
 
-        Intent intent = getIntent();
-        timePerCard = intent.getIntExtra(MenuActivity.KEY_TIME_PER_CARD, 5);
-        numDecks = intent.getIntExtra(MenuActivity.KEY_NUM_DECKS, 1);
-        isTimerOffMode = intent.getBooleanExtra(MenuActivity.KEY_IS_TIMER_OFF, false);
-        isEndlessMode = intent.getBooleanExtra(MenuActivity.KEY_IS_ENDLESS, false);
-        isActualCountMode = intent.getBooleanExtra(MenuActivity.KEY_IS_ACTUAL_CNT, false);
-        isRandomizeButtonsMode= intent.getBooleanExtra(MenuActivity.KEY_IS_RAND_BTNS, false);
-        method = intent.getIntExtra(MenuActivity.KEY_METHOD, 0);
+        timePerCard = sp.getInt(MenuActivity.KEY_TIME_PER_CARD, 5);
+        numDecks = sp.getInt(MenuActivity.KEY_NUM_DECKS, 1);
+        isTimerOffMode = sp.getBoolean(MenuActivity.KEY_IS_TIMER_OFF, false);
+        isEndlessMode = sp.getBoolean(MenuActivity.KEY_IS_ENDLESS, false);
+        isActualCountMode = sp.getBoolean(MenuActivity.KEY_IS_ACTUAL_CNT, false);
+        isRandomizeButtonsMode = sp.getBoolean(MenuActivity.KEY_IS_RAND_BTNS, false);
+        method = sp.getInt(MenuActivity.KEY_METHOD, 0);
 
         context = getApplicationContext();
 
@@ -489,13 +488,6 @@ public class CountingActivity extends AppCompatActivity {
                     .setNegativeButton("No", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                             Intent intent = new Intent(getContext(), MenuActivity.class);
-                            intent.putExtra(MenuActivity.KEY_TIME_PER_CARD, timePerCard);
-                            intent.putExtra(MenuActivity.KEY_NUM_DECKS, numDecks);
-                            intent.putExtra(MenuActivity.KEY_IS_TIMER_OFF, isTimerOffMode);
-                            intent.putExtra(MenuActivity.KEY_IS_ACTUAL_CNT, isActualCountMode);
-                            intent.putExtra(MenuActivity.KEY_IS_ENDLESS, isEndlessMode);
-                            intent.putExtra(MenuActivity.KEY_IS_RAND_BTNS, isRandomizeButtonsMode);
-                            intent.putExtra(MenuActivity.KEY_METHOD, method);
                             startActivity(intent);
                         }
                     });

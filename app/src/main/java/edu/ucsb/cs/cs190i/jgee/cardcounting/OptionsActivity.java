@@ -1,6 +1,7 @@
 package edu.ucsb.cs.cs190i.jgee.cardcounting;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Typeface;
@@ -49,6 +50,8 @@ public class OptionsActivity extends AppCompatActivity {
     private static boolean isActualCountMode;
     private static int method;
 
+    private static SharedPreferences sp;
+
     private List<String> methods = new ArrayList<>();
 
     @Override
@@ -57,14 +60,15 @@ public class OptionsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_options);
         setFont();
 
-        Intent intent = getIntent();
-        timePerCard = intent.getIntExtra(MenuActivity.KEY_TIME_PER_CARD, 5);
-        numDecks = intent.getIntExtra(MenuActivity.KEY_NUM_DECKS, 1);
-        isTimerOffMode = intent.getBooleanExtra(MenuActivity.KEY_IS_TIMER_OFF, false);
-        isEndlessMode = intent.getBooleanExtra(MenuActivity.KEY_IS_ENDLESS, false);
-        isActualCountMode = intent.getBooleanExtra(MenuActivity.KEY_IS_ACTUAL_CNT, false);
-        isRandomizeButtonsMode= intent.getBooleanExtra(MenuActivity.KEY_IS_RAND_BTNS, false);
-        method = intent.getIntExtra(MenuActivity.KEY_METHOD, 0);
+        sp = this.getSharedPreferences(MenuActivity.PREFS, MODE_PRIVATE);
+
+        timePerCard = sp.getInt(MenuActivity.KEY_TIME_PER_CARD, 5);
+        numDecks = sp.getInt(MenuActivity.KEY_NUM_DECKS, 1);
+        isTimerOffMode = sp.getBoolean(MenuActivity.KEY_IS_TIMER_OFF, false);
+        isEndlessMode = sp.getBoolean(MenuActivity.KEY_IS_ENDLESS, false);
+        isActualCountMode = sp.getBoolean(MenuActivity.KEY_IS_ACTUAL_CNT, false);
+        isRandomizeButtonsMode = sp.getBoolean(MenuActivity.KEY_IS_RAND_BTNS, false);
+        method = sp.getInt(MenuActivity.KEY_METHOD, 0);
 
         method_options_header = (TextView) findViewById(R.id.method_options_header);
         method_spinner = (Spinner) findViewById(R.id.method_spinner);
@@ -181,14 +185,17 @@ public class OptionsActivity extends AppCompatActivity {
     public void onSaveClick(View v) {
         printDebugLog();
 
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putInt(MenuActivity.KEY_TIME_PER_CARD, timePerCard);
+        editor.putInt(MenuActivity.KEY_NUM_DECKS, numDecks);
+        editor.putBoolean(MenuActivity.KEY_IS_TIMER_OFF, isTimerOffMode);
+        editor.putBoolean(MenuActivity.KEY_IS_ACTUAL_CNT, isActualCountMode);
+        editor.putBoolean(MenuActivity.KEY_IS_ENDLESS, isEndlessMode);
+        editor.putBoolean(MenuActivity.KEY_IS_RAND_BTNS, isRandomizeButtonsMode);
+        editor.putInt(MenuActivity.KEY_METHOD, method);
+        editor.apply();
+
         Intent optionsIntent = new Intent(this, MenuActivity.class);
-        optionsIntent.putExtra(MenuActivity.KEY_TIME_PER_CARD, timePerCard);
-        optionsIntent.putExtra(MenuActivity.KEY_NUM_DECKS, numDecks);
-        optionsIntent.putExtra(MenuActivity.KEY_IS_TIMER_OFF, isTimerOffMode);
-        optionsIntent.putExtra(MenuActivity.KEY_IS_ACTUAL_CNT, isActualCountMode);
-        optionsIntent.putExtra(MenuActivity.KEY_IS_ENDLESS, isEndlessMode);
-        optionsIntent.putExtra(MenuActivity.KEY_IS_RAND_BTNS, isRandomizeButtonsMode);
-        optionsIntent.putExtra(MenuActivity.KEY_METHOD, method);
         startActivity(optionsIntent);
     }
 
