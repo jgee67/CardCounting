@@ -1,22 +1,22 @@
 package edu.ucsb.cs.cs190i.jgee.cardcounting;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.content.SharedPreferences;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Menu;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
@@ -66,6 +66,10 @@ public class CountingActivity extends AppCompatActivity {
     private static boolean isActualCountMode;
     private static int method;
     private static SharedPreferences sp;
+    private static MediaPlayer cardFlip;
+    private static MediaPlayer ding;
+    private static MediaPlayer wrong;
+    private static Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,6 +89,8 @@ public class CountingActivity extends AppCompatActivity {
         isRandomizeButtonsMode= intent.getBooleanExtra(MenuActivity.KEY_IS_RAND_BTNS, false);
         method = intent.getIntExtra(MenuActivity.KEY_METHOD, 0);
 
+        context = getApplicationContext();
+
         prompt = (TextView) findViewById(R.id.prompt);
         time_header = (TextView) findViewById(R.id.time_header);
         time_tv = (TextView) findViewById(R.id.time);
@@ -98,6 +104,10 @@ public class CountingActivity extends AppCompatActivity {
         left_button = (Button) findViewById(R.id.left_button);
         middle_button = (Button) findViewById(R.id.middle_button);
         right_button = (Button) findViewById(R.id.right_button);
+        left_button.setSoundEffectsEnabled(false);
+        middle_button.setSoundEffectsEnabled(false);
+        right_button.setSoundEffectsEnabled(false);
+        card.setSoundEffectsEnabled(false);
         count = 0; // player's count
         count_tv.setText(String.format("%d", count));
         currentCardsCounted = 0;
@@ -113,6 +123,12 @@ public class CountingActivity extends AppCompatActivity {
         random.add(0, ZERO);
         random.add(0, MINUS);
         fragManager = getSupportFragmentManager();
+        cardFlip = MediaPlayer.create(this, R.raw.cardflip);
+        cardFlip.setAudioStreamType(AudioManager.STREAM_MUSIC);
+        ding = MediaPlayer.create(this, R.raw.ding);
+        ding.setAudioStreamType(AudioManager.STREAM_MUSIC);
+        wrong = MediaPlayer.create(this, R.raw.incorrect);
+        wrong.setAudioStreamType(AudioManager.STREAM_MUSIC);
         setMethodText();
         setButtons();
         initCountDownTimer();
@@ -147,6 +163,7 @@ public class CountingActivity extends AppCompatActivity {
 
     //PlayingCardView's onClickListener that starts the counting
     public void startCounting(View v) {
+        cardFlip.start();
         card.setClickable(false);
         method_header.setVisibility(View.VISIBLE);
         method_tv.setVisibility(View.VISIBLE);
@@ -173,6 +190,7 @@ public class CountingActivity extends AppCompatActivity {
         public void onClick(View v){
             count--;
             if(count != expectedCount){
+                wrong.start();
                 finishCounting();
                 return;
             }
@@ -186,6 +204,12 @@ public class CountingActivity extends AppCompatActivity {
                 middle_button.setText(String.format("%d", count));
                 right_button.setText(String.format("%d", count + 1));
             }
+            if(ding.isPlaying()){
+                ding.stop();
+                ding.reset();
+                ding = MediaPlayer.create(context, R.raw.ding);
+            }
+            ding.start();
             resetCountDownTimer();
             currentCardsCounted++;
             count_tv.setText(String.format("%d", count));
@@ -200,6 +224,7 @@ public class CountingActivity extends AppCompatActivity {
         @Override
         public void onClick(View v){
             if(count != expectedCount){
+                wrong.start();
                 finishCounting();
                 return;
             }
@@ -208,6 +233,12 @@ public class CountingActivity extends AppCompatActivity {
                 setRandomButton(middle_button);
                 setRandomButton(right_button);
             }
+            if(ding.isPlaying()){
+                ding.stop();
+                ding.reset();
+                ding = MediaPlayer.create(context, R.raw.ding);
+            }
+            ding.start();
             resetCountDownTimer();
             currentCardsCounted++;
             cards_counted.setText(String.format("%d", currentCardsCounted));
@@ -222,6 +253,7 @@ public class CountingActivity extends AppCompatActivity {
         public void onClick(View v){
             count++;
             if(count != expectedCount) {
+                wrong.start();
                 finishCounting();
                 return;
             }
@@ -235,6 +267,12 @@ public class CountingActivity extends AppCompatActivity {
                 middle_button.setText(String.format("%d", count));
                 right_button.setText(String.format("%d", count + 1));
             }
+            if(ding.isPlaying()){
+                ding.stop();
+                ding.reset();
+                ding = MediaPlayer.create(context, R.raw.ding);
+            }
+            ding.start();
             resetCountDownTimer();
             currentCardsCounted++;
             count_tv.setText(String.format("%d", count));
