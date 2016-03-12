@@ -21,6 +21,29 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="@string/method_header"
+            android:textColor="@color/header"
+            android:textSize="@dimen/header_font"
+            android:id="@+id/method_header"
+            android:visibility="invisible"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/bodytext"
+            android:textSize="@dimen/large_font"
+            android:id="@+id/method"
+            android:visibility="invisible"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="@string/time_header"
             android:textColor="@color/header"
             android:textSize="@dimen/header_font"

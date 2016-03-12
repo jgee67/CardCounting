@@ -30,6 +30,7 @@ public class MenuActivity extends AppCompatActivity {
     public static final String KEY_IS_RAND_BTNS = "KEY_IS_RAND_BTNS";
     public static final String KEY_TOTAL_CARDS = "KEY_TOTAL_CARDS";
     public static final String KEY_TOTAL_TIME = "KEY_TOTAL_TIME";
+    public static final String KEY_METHOD = "COUNTING_METHOD";
     public static final String PREFS = "CardCounting_prefs";
     public static final int HILO = 0;
     public static final int HI_OPT_1 = 1;
@@ -46,6 +47,7 @@ public class MenuActivity extends AppCompatActivity {
     private static boolean isEndlessMode;
     private static boolean isRandomizeButtonsMode;
     private static boolean isActualCountMode;
+    private static int method;
     private static int totalCardsCounted;
     private static int totalTime;
     private static SharedPreferences sp;
@@ -65,6 +67,7 @@ public class MenuActivity extends AppCompatActivity {
         isEndlessMode = intent.getBooleanExtra(KEY_IS_ENDLESS, false);
         isActualCountMode = intent.getBooleanExtra(KEY_IS_ACTUAL_CNT, false);
         isRandomizeButtonsMode= intent.getBooleanExtra(KEY_IS_RAND_BTNS, false);
+        method = intent.getIntExtra(KEY_METHOD, 0);
         sp = this.getSharedPreferences(PREFS, MODE_PRIVATE);
         totalCardsCounted = sp.getInt(KEY_TOTAL_CARDS, 0);
         totalTime = sp.getInt(KEY_TOTAL_TIME, 0);
@@ -100,14 +103,13 @@ public class MenuActivity extends AppCompatActivity {
         switch(id){
             case R.id.start:
                 intent = new Intent(this, CountingActivity.class);
-                intent.putExtra(MenuActivity.KEY_TIME_PER_CARD, timePerCard);
-                intent.putExtra(MenuActivity.KEY_NUM_DECKS, numDecks);
-                intent.putExtra(MenuActivity.KEY_IS_TIMER_OFF, isTimerOffMode);
-                intent.putExtra(MenuActivity.KEY_IS_ACTUAL_CNT, isActualCountMode);
-                intent.putExtra(MenuActivity.KEY_IS_ENDLESS, isEndlessMode);
-                intent.putExtra(MenuActivity.KEY_IS_RAND_BTNS, isRandomizeButtonsMode);
-                intent.putExtra(MenuActivity.KEY_TOTAL_CARDS, totalCardsCounted);
-                intent.putExtra(MenuActivity.KEY_TOTAL_TIME, totalTime);
+                intent.putExtra(KEY_TIME_PER_CARD, timePerCard);
+                intent.putExtra(KEY_NUM_DECKS, numDecks);
+                intent.putExtra(KEY_IS_TIMER_OFF, isTimerOffMode);
+                intent.putExtra(KEY_IS_ACTUAL_CNT, isActualCountMode);
+                intent.putExtra(KEY_IS_ENDLESS, isEndlessMode);
+                intent.putExtra(KEY_IS_RAND_BTNS, isRandomizeButtonsMode);
+                intent.putExtra(KEY_METHOD, method);
                 startActivity(intent);
                 break;
             case R.id.stats:
@@ -117,14 +119,13 @@ public class MenuActivity extends AppCompatActivity {
                 break;
             case R.id.options:
                 intent = new Intent(this, OptionsActivity.class);
-                intent.putExtra(MenuActivity.KEY_TIME_PER_CARD, timePerCard);
-                intent.putExtra(MenuActivity.KEY_NUM_DECKS, numDecks);
-                intent.putExtra(MenuActivity.KEY_IS_TIMER_OFF, isTimerOffMode);
-                intent.putExtra(MenuActivity.KEY_IS_ACTUAL_CNT, isActualCountMode);
-                intent.putExtra(MenuActivity.KEY_IS_ENDLESS, isEndlessMode);
-                intent.putExtra(MenuActivity.KEY_IS_RAND_BTNS, isRandomizeButtonsMode);
-                intent.putExtra(MenuActivity.KEY_TOTAL_CARDS, totalCardsCounted);
-                intent.putExtra(MenuActivity.KEY_TOTAL_TIME, totalTime);
+                intent.putExtra(KEY_TIME_PER_CARD, timePerCard);
+                intent.putExtra(KEY_NUM_DECKS, numDecks);
+                intent.putExtra(KEY_IS_TIMER_OFF, isTimerOffMode);
+                intent.putExtra(KEY_IS_ACTUAL_CNT, isActualCountMode);
+                intent.putExtra(KEY_IS_ENDLESS, isEndlessMode);
+                intent.putExtra(KEY_IS_RAND_BTNS, isRandomizeButtonsMode);
+                intent.putExtra(KEY_METHOD, method);
                 startActivity(intent);
                 break;
             case R.id.help:

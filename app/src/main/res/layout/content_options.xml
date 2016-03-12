@@ -37,10 +37,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="@string/method_header"
+            android:text="@string/method_options_header"
             android:textSize="@dimen/large_font"
             android:textColor="@color/bodytext"
-            android:id="@+id/method_header" />
+            android:id="@+id/method_options_header" />
 
         <Spinner
             android:layout_width="wrap_content"

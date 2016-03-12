@@ -16,6 +16,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
@@ -39,6 +40,8 @@ public class CountingActivity extends AppCompatActivity {
     private static TextView count_tv;
     private static TextView cards_counted_header;
     private static TextView cards_counted;
+    private static TextView method_header;
+    private static TextView method_tv;
     private static PlayingCardView card;
     private static Button left_button;
     private static Button middle_button;
@@ -61,6 +64,7 @@ public class CountingActivity extends AppCompatActivity {
     private static boolean isEndlessMode;
     private static boolean isRandomizeButtonsMode;
     private static boolean isActualCountMode;
+    private static int method;
     private static SharedPreferences sp;
 
     @Override
@@ -79,6 +83,7 @@ public class CountingActivity extends AppCompatActivity {
         isEndlessMode = intent.getBooleanExtra(MenuActivity.KEY_IS_ENDLESS, false);
         isActualCountMode = intent.getBooleanExtra(MenuActivity.KEY_IS_ACTUAL_CNT, false);
         isRandomizeButtonsMode= intent.getBooleanExtra(MenuActivity.KEY_IS_RAND_BTNS, false);
+        method = intent.getIntExtra(MenuActivity.KEY_METHOD, 0);
 
         prompt = (TextView) findViewById(R.id.prompt);
         time_header = (TextView) findViewById(R.id.time_header);
@@ -87,6 +92,8 @@ public class CountingActivity extends AppCompatActivity {
         count_tv = (TextView) findViewById(R.id.count);
         cards_counted_header = (TextView) findViewById(R.id.cards_counted_header);
         cards_counted = (TextView) findViewById(R.id.cards_counted);
+        method_header = (TextView) findViewById(R.id.method_header);
+        method_tv = (TextView) findViewById(R.id.method);
         card = (PlayingCardView) findViewById(R.id.card);
         left_button = (Button) findViewById(R.id.left_button);
         middle_button = (Button) findViewById(R.id.middle_button);
@@ -106,6 +113,7 @@ public class CountingActivity extends AppCompatActivity {
         random.add(0, ZERO);
         random.add(0, MINUS);
         fragManager = getSupportFragmentManager();
+        setMethodText();
         setButtons();
         initCountDownTimer();
         setFirst();
@@ -140,6 +148,8 @@ public class CountingActivity extends AppCompatActivity {
     //PlayingCardView's onClickListener that starts the counting
     public void startCounting(View v) {
         card.setClickable(false);
+        method_header.setVisibility(View.VISIBLE);
+        method_tv.setVisibility(View.VISIBLE);
         time_header.setVisibility(View.VISIBLE);
         time_tv.setVisibility(View.VISIBLE);
         if(!isActualCountMode){
@@ -424,6 +434,7 @@ public class CountingActivity extends AppCompatActivity {
                             intent.putExtra(MenuActivity.KEY_IS_ACTUAL_CNT, isActualCountMode);
                             intent.putExtra(MenuActivity.KEY_IS_ENDLESS, isEndlessMode);
                             intent.putExtra(MenuActivity.KEY_IS_RAND_BTNS, isRandomizeButtonsMode);
+                            intent.putExtra(MenuActivity.KEY_METHOD, method);
                             startActivity(intent);
                         }
                     });
@@ -464,6 +475,8 @@ public class CountingActivity extends AppCompatActivity {
         inst.add( (TextView)findViewById(R.id.left_button));
         inst.add( (TextView)findViewById(R.id.middle_button));
         inst.add( (TextView)findViewById(R.id.right_button));
+        inst.add( (TextView)findViewById(R.id.method_header));
+        inst.add( (TextView)findViewById(R.id.method));
 
         Typeface font = Typeface.createFromAsset(getAssets(), "fonts/Castellar.ttf");
         for(int i = 0; i < inst.size(); i++) {
@@ -473,6 +486,32 @@ public class CountingActivity extends AppCompatActivity {
         Typeface font1 = Typeface.createFromAsset(getAssets(), "fonts/BASKVILL.TTF");
         TextView prmpt = (TextView) findViewById(R.id.prompt);
         prmpt.setTypeface(font1);
+    }
+
+    private void setMethodText(){
+        switch(method){
+            case MenuActivity.HILO:
+                method_tv.setText(getString(R.string.hilo));
+                break;
+            case MenuActivity.HI_OPT_1:
+                method_tv.setText(getString(R.string.hiopt1));
+                break;
+            case MenuActivity.HI_OPT_2:
+                method_tv.setText(getString(R.string.hiopt2));
+                break;
+            case MenuActivity.KO:
+                method_tv.setText(getString(R.string.ko));
+                break;
+            case MenuActivity.OMEGA_2:
+                method_tv.setText(getString(R.string.omega2));
+                break;
+            case MenuActivity.RED_7:
+                method_tv.setText(getString(R.string.red7));
+                break;
+            case MenuActivity.ZEN_COUNT:
+                method_tv.setText(getString(R.string.zencount));
+                break;
+        }
     }
 
 }

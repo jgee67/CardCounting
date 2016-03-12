@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -31,7 +32,7 @@ public class OptionsActivity extends AppCompatActivity {
     private static final int OPTION_MAX = 10;
     private static final int NUM_DECKS_DEFAULT = 1;
 
-    private static TextView method_header;
+    private static TextView method_options_header;
     private static Spinner method_spinner;
     private static CheckBox timer_off_cb;
     private static TextView time_option_tv;
@@ -48,7 +49,9 @@ public class OptionsActivity extends AppCompatActivity {
     private static boolean isEndlessMode;
     private static boolean isRandomizeButtonsMode;
     private static boolean isActualCountMode;
-    private static List<String> methods = new ArrayList<>();
+    private static int method;
+
+    private List<String> methods = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,8 +66,9 @@ public class OptionsActivity extends AppCompatActivity {
         isEndlessMode = intent.getBooleanExtra(MenuActivity.KEY_IS_ENDLESS, false);
         isActualCountMode = intent.getBooleanExtra(MenuActivity.KEY_IS_ACTUAL_CNT, false);
         isRandomizeButtonsMode= intent.getBooleanExtra(MenuActivity.KEY_IS_RAND_BTNS, false);
+        method = intent.getIntExtra(MenuActivity.KEY_METHOD, 0);
 
-        method_header = (TextView) findViewById(R.id.method_header);
+        method_options_header = (TextView) findViewById(R.id.method_options_header);
         method_spinner = (Spinner) findViewById(R.id.method_spinner);
         timer_off_cb = (CheckBox) findViewById(R.id.timer_off_cb);
         time_option_tv = (TextView) findViewById(R.id.time_option_tv);
@@ -76,6 +80,8 @@ public class OptionsActivity extends AppCompatActivity {
         initTimePicker();
         initDeckPicker();
         addSpinnerMethods();
+        method_spinner.setSelection(method);
+        method_spinner.setOnItemSelectedListener(new methodSelectedListener());
 
         setupOnCheckChangeListeners();
         updateOptionsUI();
@@ -165,6 +171,7 @@ public class OptionsActivity extends AppCompatActivity {
         isEndlessMode = false;
         isActualCountMode = false;
         isRandomizeButtonsMode = false;
+        method = 0;
 
         updateOptionsUI();
 
@@ -183,6 +190,7 @@ public class OptionsActivity extends AppCompatActivity {
         optionsIntent.putExtra(MenuActivity.KEY_IS_ACTUAL_CNT, isActualCountMode);
         optionsIntent.putExtra(MenuActivity.KEY_IS_ENDLESS, isEndlessMode);
         optionsIntent.putExtra(MenuActivity.KEY_IS_RAND_BTNS, isRandomizeButtonsMode);
+        optionsIntent.putExtra(MenuActivity.KEY_METHOD, method);
         startActivity(optionsIntent);
     }
 
@@ -194,6 +202,7 @@ public class OptionsActivity extends AppCompatActivity {
         endless_mode_cb.setChecked(isEndlessMode);
         random_buttons_cb.setChecked(isRandomizeButtonsMode);
         actual_count_cb.setChecked(isActualCountMode);
+        method_spinner.setSelection(method);
     }
 
     // Prints out the values stored in the option variables
@@ -212,7 +221,7 @@ public class OptionsActivity extends AppCompatActivity {
         inst.add((TextView)findViewById(R.id.options_title));
         inst.add((TextView)findViewById(R.id.time_option_tv));
         inst.add( (TextView)findViewById(R.id.deck_option_tv));
-        inst.add( (TextView)findViewById(R.id.method_header));
+        inst.add( (TextView)findViewById(R.id.method_options_header));
 
         ArrayList<CheckBox> cb_list = new ArrayList<CheckBox>();
         cb_list.add((CheckBox) findViewById(R.id.actual_count_cb));
@@ -270,15 +279,28 @@ public class OptionsActivity extends AppCompatActivity {
     }
 
     public void addSpinnerMethods() {
-        methods.add("Hi-Lo");
-        methods.add("Hi-Opt 1");
-        methods.add("Hi-Opt 2");
-        methods.add("Knock Out");
-        methods.add("Omega 2");
-        methods.add("Red 7");
-        methods.add("Zen Count");
+        methods.add(getString(R.string.hilo));
+        methods.add(getString(R.string.hiopt1));
+        methods.add(getString(R.string.hiopt2));
+        methods.add(getString(R.string.ko));
+        methods.add(getString(R.string.omega2));
+        methods.add(getString(R.string.red7));
+        methods.add(getString(R.string.zencount));
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(this, R.layout.spinner_item, methods);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         method_spinner.setAdapter(dataAdapter);
+    }
+
+    public class methodSelectedListener implements AdapterView.OnItemSelectedListener {
+
+        public void onItemSelected(AdapterView<?> parent, View view, int pos,long id) {
+            method = pos;
+        }
+
+        @Override
+        public void onNothingSelected(AdapterView<?> arg0) {
+            // TODO Auto-generated method stub
+        }
+
     }
 }
