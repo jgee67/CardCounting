@@ -34,11 +34,8 @@ public class MenuActivity extends AppCompatActivity {
     public static final String PREFS = "CardCounting_prefs";
     public static final int HILO = 0;
     public static final int HI_OPT_1 = 1;
-    public static final int HI_OPT_2 = 2;
-    public static final int KO = 3;
-    public static final int OMEGA_2 = 4;
-    public static final int RED_7 = 5;
-    public static final int ZEN_COUNT = 6;
+    public static final int KO = 2;
+    public static final int RED_7 = 3;
     private static FragmentManager fragManager;
 
     private static int timePerCard;

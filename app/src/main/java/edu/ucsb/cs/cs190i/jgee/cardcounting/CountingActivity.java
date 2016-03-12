@@ -310,9 +310,32 @@ public class CountingActivity extends AppCompatActivity {
 
     //Gets the next increment based on next card value
     private static void setExpected(){
-        int value = card.getCardValue();
-        if(value < 7) expectedCount++;
-        if(value > 9) expectedCount--;
+        int value;
+        int suit;
+        switch(method){
+            case MenuActivity.HILO:
+                value = card.getCardValue();
+                if(value < 7) expectedCount++;
+                if(value > 9) expectedCount--;
+                break;
+            case MenuActivity.HI_OPT_1:
+                value = card.getCardValue();
+                if(value > 2 && value < 7) expectedCount++;
+                if(value > 9 && value < 11) expectedCount--;
+                break;
+            case MenuActivity.KO:
+                value = card.getCardValue();
+                if(value < 8) expectedCount++;
+                if(value > 9) expectedCount--;
+                break;
+            case MenuActivity.RED_7:
+                value = card.getCardValue();
+                suit = card.getCardSuit();
+                if(value < 7) expectedCount++;
+                if(value == 7 && (suit == PlayingCard.DIAMONDS || suit == PlayingCard.HEARTS)) expectedCount++;
+                if(value > 9) expectedCount--;
+                break;
+        }
     }
 
     //Reset the countdown timer
@@ -496,20 +519,14 @@ public class CountingActivity extends AppCompatActivity {
             case MenuActivity.HI_OPT_1:
                 method_tv.setText(getString(R.string.hiopt1));
                 break;
-            case MenuActivity.HI_OPT_2:
-                method_tv.setText(getString(R.string.hiopt2));
-                break;
             case MenuActivity.KO:
                 method_tv.setText(getString(R.string.ko));
-                break;
-            case MenuActivity.OMEGA_2:
-                method_tv.setText(getString(R.string.omega2));
                 break;
             case MenuActivity.RED_7:
                 method_tv.setText(getString(R.string.red7));
                 break;
-            case MenuActivity.ZEN_COUNT:
-                method_tv.setText(getString(R.string.zencount));
+            default:
+                method_tv.setText("Not Set");
                 break;
         }
     }

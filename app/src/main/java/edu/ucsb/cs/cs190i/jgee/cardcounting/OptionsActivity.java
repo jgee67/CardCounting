@@ -281,11 +281,8 @@ public class OptionsActivity extends AppCompatActivity {
     public void addSpinnerMethods() {
         methods.add(getString(R.string.hilo));
         methods.add(getString(R.string.hiopt1));
-        methods.add(getString(R.string.hiopt2));
         methods.add(getString(R.string.ko));
-        methods.add(getString(R.string.omega2));
         methods.add(getString(R.string.red7));
-        methods.add(getString(R.string.zencount));
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(this, R.layout.spinner_item, methods);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         method_spinner.setAdapter(dataAdapter);

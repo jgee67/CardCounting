@@ -43,6 +43,11 @@ public class PlayingCardView extends ImageView {
         return card.getValue();
     }
 
+    //Returns card's suit (0-3)
+    public int getCardSuit(){
+        return card.getSuit();
+    }
+
     //Returns card's id (0-12)
     public int getCardId(){
         return card.getId();
