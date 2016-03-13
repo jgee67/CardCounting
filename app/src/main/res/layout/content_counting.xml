@@ -18,7 +18,8 @@
         android:orientation="horizontal"
         android:gravity="center_horizontal">
 
-        <TextView
+        <edu.ucsb.cs.cs190i.jgee.cardcounting.CustomFontTextView
+            app:fontName="Castellar.ttf"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/method_header"
@@ -26,7 +27,8 @@
             android:textSize="@dimen/header_font"
             android:id="@+id/method_header"
             android:visibility="invisible"/>
-        <TextView
+        <edu.ucsb.cs.cs190i.jgee.cardcounting.CustomFontTextView
+            app:fontName="Castellar.ttf"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/bodytext"
@@ -41,7 +43,8 @@
         android:orientation="horizontal"
         android:gravity="center_horizontal">
 
-        <TextView
+        <edu.ucsb.cs.cs190i.jgee.cardcounting.CustomFontTextView
+            app:fontName="Castellar.ttf"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/time_header"
@@ -49,7 +52,8 @@
             android:textSize="@dimen/header_font"
             android:id="@+id/time_header"
             android:visibility="invisible"/>
-        <TextView
+        <edu.ucsb.cs.cs190i.jgee.cardcounting.CustomFontTextView
+            app:fontName="Castellar.ttf"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/bodytext"
@@ -64,7 +68,8 @@
         android:orientation="horizontal"
         android:gravity="center_horizontal">
 
-        <TextView
+        <edu.ucsb.cs.cs190i.jgee.cardcounting.CustomFontTextView
+            app:fontName="Castellar.ttf"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/cards_counted_header"
@@ -72,7 +77,8 @@
             android:textSize="@dimen/header_font"
             android:id="@+id/cards_counted_header"
             android:visibility="invisible"/>
-        <TextView
+        <edu.ucsb.cs.cs190i.jgee.cardcounting.CustomFontTextView
+            app:fontName="Castellar.ttf"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/bodytext"
@@ -87,7 +93,8 @@
         android:orientation="horizontal"
         android:gravity="center_horizontal">
 
-        <TextView
+        <edu.ucsb.cs.cs190i.jgee.cardcounting.CustomFontTextView
+            app:fontName="Castellar.ttf"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/count_header"
@@ -95,7 +102,8 @@
             android:textSize="@dimen/header_font"
             android:id="@+id/count_header"
             android:visibility="invisible"/>
-        <TextView
+        <edu.ucsb.cs.cs190i.jgee.cardcounting.CustomFontTextView
+            app:fontName="Castellar.ttf"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/bodytext"
@@ -104,7 +112,8 @@
             android:visibility="invisible"/>
     </LinearLayout>
 
-    <TextView
+    <edu.ucsb.cs.cs190i.jgee.cardcounting.CustomFontTextView
+        app:fontName="BASKVILL.TTF"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/start_prompt"

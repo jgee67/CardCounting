@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="0dp"
+    android:background="@drawable/background"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignBottom="@+id/help_inst1"
+            android:layout_alignEnd="@+id/linearLayout"
+            android:paddingTop="@dimen/paragraph_padding">
+            <edu.ucsb.cs.cs190i.jgee.cardcounting.CustomFontTextView
+                app:fontName="Castellar.ttf"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/red7"
+                android:textColor="@color/title"
+                android:gravity="center"
+                android:textSize="@dimen/title_font"
+                android:padding="16dp"
+                android:id="@+id/help_title_p2"
+                android:layout_gravity="center_horizontal"
+                android:paddingBottom="@dimen/paragraph_padding"/>
+
+            <edu.ucsb.cs.cs190i.jgee.cardcounting.CustomFontTextView
+                app:fontName="BASKVILL.TTF"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Each card is given a point value as follows."
+                android:textColor="@color/bodytext"
+                android:textSize="@dimen/large_font"
+                android:id="@+id/help_inst1"
+                android:layout_gravity="center_horizontal"
+                android:paddingBottom="@dimen/paragraph_padding"/>
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:paddingBottom="@dimen/paragraph_padding"
+                android:id="@+id/linearLayout">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/imageView1"
+                    android:src="@drawable/red7_low_cards"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text=" +1"
+                    android:textSize="@dimen/help_count_val_font"
+                    android:textColor="@color/bodytext"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:id="@+id/p1"/>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:paddingBottom="@dimen/paragraph_padding">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/imageView2"
+                    android:src="@drawable/red7_zero_cards"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text=" 0"
+                    android:textSize="@dimen/help_count_val_font"
+                    android:textColor="@color/bodytext"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:id="@+id/z"/>
+
+            </LinearLayout>
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:paddingBottom="@dimen/paragraph_padding">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/imageView"
+                    android:src="@drawable/main_high_cards"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text=" -1"
+                    android:textSize="@dimen/help_count_val_font"
+                    android:textColor="@color/bodytext"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:id="@+id/m1"/>
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+</RelativeLayout>

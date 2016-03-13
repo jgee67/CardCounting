@@ -13,7 +13,8 @@
     tools:showIn="@layout/activity_options"
     android:background="@drawable/background">
 
-    <TextView
+    <edu.ucsb.cs.cs190i.jgee.cardcounting.CustomFontTextView
+        app:fontName="Castellar.ttf"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/options_title"
@@ -33,7 +34,8 @@
         android:layout_marginTop="70dp"
         android:layout_below="@id/options_title">
 
-        <TextView
+        <edu.ucsb.cs.cs190i.jgee.cardcounting.CustomFontTextView
+            app:fontName="BASKVILL.TTF"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
@@ -60,7 +62,8 @@
         android:layout_centerHorizontal="true"
         android:layout_below="@id/method_options_body">
 
-        <TextView
+        <edu.ucsb.cs.cs190i.jgee.cardcounting.CustomFontTextView
+            app:fontName="BASKVILL.TTF"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
@@ -96,7 +99,8 @@
         android:layout_below="@id/timer_options_body"
         android:layout_centerHorizontal="true">
 
-        <TextView
+        <edu.ucsb.cs.cs190i.jgee.cardcounting.CustomFontTextView
+            app:fontName="BASKVILL.TTF"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
@@ -123,7 +127,8 @@
 
     </LinearLayout>
 
-    <TextView
+    <edu.ucsb.cs.cs190i.jgee.cardcounting.CustomFontTextView
+        app:fontName="BASKVILL.TTF"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/difficulty_options_header"
