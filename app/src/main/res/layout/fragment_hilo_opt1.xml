@@ -54,7 +54,8 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/imageView1"
                     android:src="@drawable/opt1_low_cards"/>
-                <TextView
+                <edu.ucsb.cs.cs190i.jgee.cardcounting.CustomFontTextView
+                    app:fontName="Castellar.ttf"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
@@ -79,7 +80,8 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/imageView2"
                     android:src="@drawable/opt1_zero_cards"/>
-                <TextView
+                <edu.ucsb.cs.cs190i.jgee.cardcounting.CustomFontTextView
+                     app:fontName="Castellar.ttf"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
@@ -102,7 +104,8 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/imageView"
                     android:src="@drawable/opt1_high_cards"/>
-                <TextView
+                <edu.ucsb.cs.cs190i.jgee.cardcounting.CustomFontTextView
+                    app:fontName="Castellar.ttf"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
