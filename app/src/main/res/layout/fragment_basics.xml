@@ -174,24 +174,24 @@
                 app:fontName="BASKVILL.TTF"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/basics_b3_3"
-                android:textColor="@color/bodytext"
-                android:gravity="center"
-                android:textSize="@dimen/body_font"
-                android:padding="16dp"
-                android:id="@+id/basics_b3_3"
-                android:layout_gravity="center_horizontal"
-                android:paddingBottom="@dimen/paragraph_padding"/>
-            <edu.ucsb.cs.cs190i.jgee.cardcounting.CustomFontTextView
-                app:fontName="BASKVILL.TTF"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:text="@string/basics_b3_4"
                 android:textColor="@color/bodytext"
                 android:gravity="center"
                 android:textSize="@dimen/body_font"
                 android:padding="16dp"
                 android:id="@+id/basics_b3_4"
+                android:layout_gravity="center_horizontal"
+                android:paddingBottom="@dimen/paragraph_padding"/>
+            <edu.ucsb.cs.cs190i.jgee.cardcounting.CustomFontTextView
+                app:fontName="BASKVILL.TTF"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/basics_b3_5"
+                android:textColor="@color/bodytext"
+                android:gravity="center"
+                android:textSize="@dimen/body_font"
+                android:padding="16dp"
+                android:id="@+id/basics_b3_5"
                 android:layout_gravity="center_horizontal"
                 android:paddingBottom="@dimen/paragraph_padding"/>
 

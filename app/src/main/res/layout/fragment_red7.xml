@@ -114,6 +114,43 @@
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:id="@+id/m1"/>
             </LinearLayout>
+            <edu.ucsb.cs.cs190i.jgee.cardcounting.CustomFontTextView
+                app:fontName="Castellar.ttf"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/notes"
+                android:textColor="@color/header"
+                android:gravity="center"
+                android:textSize="@dimen/header_font"
+                android:padding="16dp"
+                android:id="@+id/r7_notes"
+                android:layout_gravity="center_horizontal"
+                android:paddingBottom="@dimen/paragraph_padding"/>
+            <edu.ucsb.cs.cs190i.jgee.cardcounting.CustomFontTextView
+                app:fontName="BASKVILL.TTF"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/red_7_i1"
+                android:textColor="@color/bodytext"
+                android:gravity="center"
+                android:textSize="@dimen/body_font"
+                android:padding="16dp"
+                android:id="@+id/red_7_i1"
+                android:layout_gravity="center_horizontal"
+                android:paddingBottom="@dimen/paragraph_padding"/>
+            <edu.ucsb.cs.cs190i.jgee.cardcounting.CustomFontTextView
+                app:fontName="BASKVILL.TTF"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/red_7_i2"
+                android:textColor="@color/bodytext"
+                android:gravity="center"
+                android:textSize="@dimen/body_font"
+                android:padding="16dp"
+                android:id="@+id/red_7_i2"
+                android:layout_gravity="center_horizontal"
+                android:paddingBottom="@dimen/paragraph_padding"/>
+
         </LinearLayout>
     </ScrollView>
 </RelativeLayout>

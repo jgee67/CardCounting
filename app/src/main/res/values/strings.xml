@@ -40,11 +40,23 @@
     <string name="basics_b2_1">•	The running count is a value that starts at 0.</string>
     <string name="basics_b2_2">•	Each card has an assigned value that varies by card counting system. Swipe left to view the different systems.</string>
     <string name="basics_b2_3">•	All you need to do is add the value of each opened card to the running count. \nFor example:</string>
-    <string name="basics_b2_4">•	The running count in the case is +1.</string>
-    <string name="basics_b3_1">•	If the running count is positive, then there are more high cards than low cards, you are at an advantage again the dealer.</string>
+    <string name="basics_b2_4">•	The running count in the case is -1.</string>
+    <string name="basics_b3_1">•	If the running count is positive, then there are more high cards than low cards, you are at an advantage against the dealer.</string>
     <string name="basics_b3_2">•	If the running count is negative then there are more low cards that high cards, the dealer has an advantage over you.</string>
     <string name="basics_b3_3">•	When the running count is +2 you should start increasing your bet. </string>
-    <string name="basics_b3_4">•	When playing with multi-deck, making betting judgement using just the running count is insufficient. You need to do: \n Running Count / (# Deck Starts - #Decks Left)</string>
+    <string name="basics_b3_4">•	When playing with multiple decks, making betting judgements based on just the running count is insufficient. You need to increase your bet according to the true count.</string>
+    <string name="basics_b3_5">•	True Count = Running Count / (# Deck Starts - #Decks Left)</string>
+
+    <string name="notes">Notes</string>
+    <string name="red_7_i1">•   Place the maximum bet on the table when the count is around +15 and +16</string>
+    <string name="red_7_i2">•   Should be used alongside blackjack strategy.</string>
+    <string name="ko_i1">•   Not the most accurate, but convenient.</string>
+    <string name="ko_i2">•   As the count gets higher and higher over +2 you should raise your bet more and more</string>
+    <string name="ho_i1">•   Not keeping track of aces and twos in the running count.</string>
+    <string name="ho_i2">•   When using this system, players usually keep track of aces on the side using fingers or toes.</string>
+    <string name="ho_i3">•   Often used by more advanced players..</string>
+    <string name="hl_i1">•    As the count gets higher and higher over +2 you should raise your bet more and more</string>
+    <string name="hl_i2">•    Used by many for its accuracy, effectiveness, and simplicity.</string>
 
     <string name="counting_system">Counting System: </string>
 
